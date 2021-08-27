@@ -6,9 +6,12 @@
     align-items: center;
 }
 
+.header_loggedin {
+    background-color: #fff;
+}
+
 .header__info {
     width: 1140px;
-    min-height: 74px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -19,16 +22,21 @@
 .header__nav {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    
+    align-items: center; 
+}
+
+.header__nav_loggedin {
+    width: 93%;
+    justify-content: space-between;
 }
 
 .header__link {
     font-size: .75rem;
-    font-weight: 500;
+    font-weight: 300;
     text-align: center;
     text-decoration: none;
     margin: 0 auto;
+    opacity: 1;
     transition: .3s ease-in-out;
 }
 
@@ -38,10 +46,7 @@
 
 .header__signup {
     color: #fff;
-}
-
-.header__signin-text {
-    color: #000;
+    font-weight: 500;
 }
 
 .header__signin {
@@ -50,7 +55,43 @@
     background-color: #2BE080;
     border-radius: 3px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 500;
     margin: 0 0 0 30px;
+}
+
+.header__movies-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
+.header__saved-movies-link {
+    color: #000;
+    margin: 0 0 0 16px;
+}
+
+.header__profile-link {
+    color: #000;
+    display: flex;
+    margin: 0;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header__profile-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    margin: 0 0 0 13px;
+    background-color: #F9F9F9;
+    background-image: url(../../images/accaunt-icon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: inherit;
 }

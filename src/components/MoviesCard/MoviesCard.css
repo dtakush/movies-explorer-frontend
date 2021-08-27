@@ -1,0 +1,76 @@
+.card {
+    width: 364px;
+    background-color: #FDFDFD;
+    box-shadow: 0px 2px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card__menu {
+    width: 92%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 14px 0 14px;
+}
+
+.card__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.card__title {
+   font-size: .9rem;
+   font-weight: 500;
+   color: #000;
+   margin: 0 0 9px;
+}
+
+.card__duraton {
+    font-size: .68rem;
+    font-weight: 300;
+    color: #A0A0A0; 
+}
+
+.card__save-button {
+    width: 30px;
+    height: 30px;
+    background-color: #F9F9F9;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__save-button_active {
+    background-color: #2BE080;
+}
+
+.card__save-icon {
+    width: 10px;
+    height: 13px;
+    background-image: url(../../images/save-movie.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card__save-icon_active {
+    background-image: url(../../images/save-movie_active.svg);
+}
+
+.card__image {
+    width: 100%;
+    min-height: 203px;
+    z-index: 10;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

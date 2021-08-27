@@ -1,0 +1,79 @@
+.entrance__container {
+    width: 396px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.entrance__logo {
+    margin: 70px 0 40px;
+}
+
+.entrance__hello {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #000;
+    margin-block: 0;
+}
+
+.entrance__form {
+    width: 100%;
+    margin: 40px 0 16px;
+}
+
+.entrance__form-text {
+    font-size: .62rem;
+    font-weight: 300;
+    color: #A0A0A0;
+    margin: 24px 0 0;
+}
+
+.entrance__form-text:first-of-type {
+    margin: 0;
+}
+
+.entrance__input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #E8E8E8;
+    font-size: .87rem;
+    font-weight: 300;
+    color: #000;
+    padding: 0 0 10px;
+}
+
+.entrance__button {
+    width: 100%;
+    background-color: #FF6838;
+    height: 45px;
+    border-radius: 3px;
+    border: none;
+    font-size: .87rem;
+    font-weight: 500;
+    color: #fff;
+    margin: 147px 0 31px;
+}
+
+.entrance__button-login {
+    margin: 221px 0 31px;
+}
+
+.entrance__come-in {
+    width: 100%;
+    font-size: .87rem;
+    font-weight: 300;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.entrance__text {
+    color: #A0A0A0;
+    margin: 0 6px 0 0;
+}
+
+.entrance__link {
+    text-decoration: none;
+    color: #FF6838;
+}
