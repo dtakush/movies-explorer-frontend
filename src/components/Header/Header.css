@@ -11,7 +11,7 @@
 }
 
 .header__info {
-    width: 1140px;
+    width: 89%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -94,4 +94,27 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: inherit;
+}
+
+.header__nav-button {
+    height: 44px;
+    width: 44px;
+    background-color: #fff;
+    border: none;
+    background-image: url(../../images/header_navidation.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: inherit;
+    transition: .3s ease-in-out;
+}
+
+.header__nav-button:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1080px) {
+    .header__info {
+        max-width: 92%;
+    }
 }

@@ -7,6 +7,7 @@ function Profile(props) {
     return (
          <section className="profile">
             <Header />
+            
             <div className="profile__container">
                 <h2 className="profile__hello">Привет, Виталий!</h2>
                 <div className="profile__edit-block profile__edit-name">

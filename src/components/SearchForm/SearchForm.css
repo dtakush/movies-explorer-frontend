@@ -33,8 +33,12 @@
     outline: none;
     font-size: .87rem;
     font-weight: 300;
-    color: rgba(170, 170, 170, 0.2);
+    color: #000;
     margin: 0 0 0 22px;
+}
+
+.searchform__input::placeholder {
+    color: #A0A0A0;
 }
 
 .searchform__button {

@@ -35,11 +35,28 @@
 .entrance__input {
     width: 100%;
     border: none;
+    outline: none;
     border-bottom: 1px solid #E8E8E8;
     font-size: .87rem;
     font-weight: 300;
     color: #000;
     padding: 0 0 10px;
+}
+
+.entrance__input:focus {
+    border-bottom: 1px solid #FF6838;
+}
+
+.entrance__input:invalid {
+    color: #EE3465;
+    border-bottom: 1px solid #EE3465;
+}
+
+.entrance__input-error {
+    font-size: .62rem;
+    font-weight: 300;
+    color: #EE3465;
+    margin: 6px 0 0;
 }
 
 .entrance__button {
@@ -51,7 +68,7 @@
     font-size: .87rem;
     font-weight: 500;
     color: #fff;
-    margin: 147px 0 31px;
+    margin: 133px 0 31px;
 }
 
 .entrance__button-login {
