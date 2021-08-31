@@ -13,7 +13,6 @@ function SearchForm(props) {
                         <div className="searchform__button_pic"></div>
                     </button>
                 </form>
-                <p className="searchform__text">Короткометражки</p>
                 <FilterCheckbox />
             </div>
         </section>

@@ -1,11 +1,13 @@
 .card {
     width: 364px;
+    max-height: 271px;
     background-color: #FDFDFD;
     box-shadow: 0px 2px 30px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    transition: 1s ease-in-out;
 }
 
 .card__menu {
@@ -28,12 +30,14 @@
    font-size: .9rem;
    font-weight: 500;
    color: #000;
+   margin-block: 0;
    margin: 0 0 9px;
 }
 
 .card__duraton {
     font-size: .68rem;
     font-weight: 300;
+    margin-block: 0;
     color: #A0A0A0; 
 }
 
@@ -43,6 +47,7 @@
     background-color: #F9F9F9;
     border-radius: 50%;
     border: none;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,15 +67,43 @@
     background-size: cover;
 }
 
+.card__save-icon_saved {
+    width: 8px;
+    height: 8px;
+    rotate: 45;
+    background-image: url(../../images/delete-card.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .card__save-icon_active {
     background-image: url(../../images/save-movie_active.svg);
 }
 
 .card__image {
     width: 100%;
-    min-height: 203px;
+    height: 203px;
     z-index: 10;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    transition: 1s ease-in-out;
+}
+
+@media screen and (max-width: 1200px) {
+    .card__image {
+        height: 190px;
+    } 
+}
+
+@media screen and (max-width: 767px) {
+    .card {
+        width: 300px;
+        max-height: 236px;
+    }
+
+    .card__image {
+        height: 168px;
+    } 
 }

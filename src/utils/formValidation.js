@@ -16,7 +16,7 @@ function useValidation(userData) {
         setIsInputValid(e.target.closest("form").checkValidity());
     }, [setFormValues]);
 
-    const { inputName, inputEmail, inputPassword } = formValues;
+    // const { inputName, inputEmail, inputPassword } = formValues;
 
     return {
         formValues,

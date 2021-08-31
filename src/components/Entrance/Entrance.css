@@ -18,7 +18,7 @@
 
 .entrance__form {
     width: 100%;
-    margin: 40px 0 16px;
+    margin: 40px 0 0;
 }
 
 .entrance__form-text {
@@ -49,7 +49,6 @@
 
 .entrance__input:invalid {
     color: #EE3465;
-    border-bottom: 1px solid #EE3465;
 }
 
 .entrance__input-error {
@@ -68,7 +67,8 @@
     font-size: .87rem;
     font-weight: 500;
     color: #fff;
-    margin: 133px 0 31px;
+    margin: 151px 0 16px;
+    transition: 1s ease-in-out;
 }
 
 .entrance__button-login {
@@ -93,4 +93,56 @@
 .entrance__link {
     text-decoration: none;
     color: #FF6838;
+}
+
+@media screen and (max-width: 1041px) {
+    .entrance__logo {
+        margin: 232px 0 40px;
+    }
+
+    .entrance__form {
+        margin: 40px 0 0;
+    }
+
+    .entrance__button {
+        margin: 134px 0 16px;
+    }
+
+    .entrance__button-login {
+        margin: 223px 0 31px;
+    }
+
+    .entrance__come-in {
+        margin: 0 0 232px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .entrance__container {
+        width: 81%;
+        align-items: center;
+    }
+
+    .entrance__logo {
+        margin: 56px 0 50px;
+    }
+
+    .entrance__form {
+        margin: 80px 0 0;
+    }
+
+    .entrance__button {
+        font-size: .75rem;
+        margin: 240px 0 14px;
+    }
+
+    .entrance__button-login {
+        margin: 309px 0 14px;
+    }
+
+    .entrance__come-in {
+        font-size: .75rem;
+        margin: 0 0 30px;
+    }
+    
 }

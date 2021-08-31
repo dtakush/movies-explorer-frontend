@@ -18,6 +18,7 @@
     font-weight: 500;
     color: #000;
     margin: 74px 0 107px;
+    transition: 1s ease-in-out;
 }
 
 .profile__edit-block {
@@ -26,6 +27,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    transition: 1s ease-in-out;
 }
 
 .profile__edit-name {
@@ -62,10 +64,47 @@
     font-weight: 300;
     color: #000;
     margin: 220px auto 16px;
+    transition: 1s ease-in-out;
 }
 
 .profile__exit-button {
     font-weight: 500;
     color: #EE3465;
     margin: 0 auto 70px;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile__hello {
+        margin: 236px 0 96px;
+    }
+
+    .profile__edit-button {
+        margin: 210px auto 16px;
+    }
+
+    .profile__exit-button {
+        margin: 0 auto 269px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__hello {
+        margin: 70px 0 80px;
+    }
+
+    .profile__container {
+        width: 81%;
+    }
+
+    .profile__button {
+        font-size: .75rem;
+    }
+
+    .profile__edit-button {
+        margin: 379px auto 16px;
+    }
+
+    .profile__exit-button {
+        margin: 0 auto 40px;
+    }
 }

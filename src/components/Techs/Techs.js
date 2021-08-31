@@ -5,10 +5,10 @@ import Subtitle from '../Subtitle/Subtitle';
 
 function Techs(props) {
     return (
-        <section className="techs">
+        <section id="techs" className="techs">
             <div className="techs__conteiner">
                 <Subtitle
-                        subtitle="Технологии"
+                subtitle="Технологии"
                     />
                 
                 <h2 className="techs__title">7 технологий</h2>

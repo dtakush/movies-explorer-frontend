@@ -5,7 +5,7 @@ import Subtitle from '../Subtitle/Subtitle';
 
 function AboutProject(props) {
     return (
-        <section className="about-project">
+        <section id="project" className="about-project">
             <div className="about-project__container">
                 <Subtitle
                     subtitle="О проекте"

@@ -11,4 +11,12 @@
     text-align: left;
     color: #000;
     margin: 110px auto 23px;
+    transition: 1s ease-in-out;
+}
+
+@media screen and (max-width: 767px) {
+    .subtitle {
+        font-size: 1.12rem;
+        margin: 70px auto 28px;
+    }
 }

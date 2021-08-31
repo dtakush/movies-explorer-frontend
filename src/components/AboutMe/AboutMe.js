@@ -5,7 +5,7 @@ import Subtitle from '../Subtitle/Subtitle';
 
 function AboutMe(props) {
     return (
-        <section className="about-me">
+        <section id="me" className="about-me">
             <div className="about-me__conteiner">
                 <Subtitle
                         subtitle="Студент"
@@ -17,12 +17,7 @@ function AboutMe(props) {
                         <p className="about-me__text">Привет, меня зовут Даша и так вышло, что я дизайнер.
                                                         Больше чем за семь лет работы, я успела поработать
                                                         как с монстрами рынка, так и помочь в наведении
-                                                        красоты и порядка начинающим брендам, особенно
-                                                        вспоминаются: Stada, Takeda, Alvogen, Спартак, Монарх,
-                                                        но, естественно, их в разы больше.
-                                                        КСТАТИ!
-                                                        Сейчас я решила прокачать свой скилл и учусь
-                                                        в Яндекс.Практикуме на фронтенд-разработчика.</p>
+                                                        красоты и порядка начинающим брендам.</p>
                         <div className="about-me__links">
                             <a className="about-me__link" href="https://www.facebook.com/dashatakush" target="_blank" rel="noreferrer">Facebook</a>
                             <a className="about-me__link" href="https://github.com/dtakush" target="_blank" rel="noreferrer">GitHub</a>
