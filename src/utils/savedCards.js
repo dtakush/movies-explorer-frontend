@@ -17,4 +17,5 @@ module.exports.cards = [
         duration: '1ч 47м',
         link: 'https://i0.wp.com/awdee.ru/wp-content/uploads/2020/06/LOhzuBFb11g.jpg?w=770&ssl=1',
     },
+    
 ]
