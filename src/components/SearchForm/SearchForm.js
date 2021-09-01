@@ -8,7 +8,7 @@ function SearchForm(props) {
         <section className="searchform">
             <div className="searchform__container">
                 <form className="searchform__form">
-                    <input className="searchform__input" placeholder="Фильм" />
+                    <input className="searchform__input" placeholder="Фильм" required />
                     <button className="searchform__button" type="button">
                         <div className="searchform__button_pic"></div>
                     </button>
