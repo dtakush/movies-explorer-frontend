@@ -12,6 +12,7 @@ function Entrance(props) {
             <div className="entrance__container">
                 <Link to="/" className="entrance__logo"><img src={logo} alt="Логотип проекта"/></Link>
                 <h3 className="entrance__hello">{props.title}</h3>
+
                 <form
                 className="entrance__form"
                 id={`${props.name}-form`}
@@ -29,6 +30,7 @@ function Entrance(props) {
                         {props.buttonText}
                     </button>
                 </form>
+                
                 <div className="entrance__come-in">
                     <p className="entrance__text">{props.entranceText}</p>
                     <Link

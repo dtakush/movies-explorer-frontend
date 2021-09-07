@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { useLocation } from 'react-router';
 
 // Компоненты
 import Main from '../Main/Main';
@@ -20,6 +21,7 @@ import mainApi from '../../utils/MainApi';
 
 function App() {
   const history = useHistory();
+  const location = useLocation();
 
   //Переменные состояния
   const [currentUser, setCurrentUser] = React.useState({});
@@ -38,10 +40,10 @@ function App() {
     mainApi.register(name, email, password)
     .then((res) => {
         if(res) {
-          console.log('успешная регситрация');
+          console.log('успешная регистрация');
           history.push("/signin");
         } else {
-          console.log('плохая регситрация');
+          console.log('плохая регистрация');
         }
     })
     .catch((err) => {
@@ -53,10 +55,10 @@ function App() {
   function handleLogin({email, password}) {
     mainApi.authorize(email, password)
     .then((res) => {
-        if(res.token) {
-          tokenCheck();
+        if(res) {
+          localStorage.setItem('token', res.token);
           setLoggedIn(true);
-          console.log('успешная логин');
+          console.log('успешный вход');
           history.push('/movies');
         }
     })
@@ -66,36 +68,62 @@ function App() {
   }
 
   //Проверка токена
-  function tokenCheck() {
+  /* function tokenCheck() {
     console.log(localStorage);
-    const jwt = localStorage.getItem('jwt');
+    const locationPath = location.pathname;
+    const token = localStorage.getItem('token');
 
-    if(jwt) {
-      mainApi.checkToken(jwt)
+    if(token) {
+      mainApi.checkToken(token)
         .then((res) => {
             if(res) {
-                setUserData({ 
-                    email: res.email,
-                    id: res._id,
-                });
+              setUserData({ 
+                  email: res.email,
+                  id: res._id,
+              });
                 
-                setLoggedIn(true);
-                history.push("/");
+              setLoggedIn(true);
+              history.push(locationPath);
             } else {
-                localStorage.removeItem("jwt");
-                return
+              localStorage.removeItem("token");
+              history.push("/");
+              return
             }
         })
         .catch((err) => {
             console.log(`Attention! ${err}`);
-            history.push("/signin");
+            history.push("/");
         })
     }
-  }
+  } */
 
   React.useEffect(() => {
-      tokenCheck();
-      // eslint-disable-next-line
+    const locationPath = location.pathname;
+    const token = localStorage.getItem('token');
+    console.log(token);
+
+    if(token) {
+      mainApi.checkToken(token)
+        .then((res) => {
+            if(res) {
+              setUserData({ 
+                  email: res.email,
+                  id: res._id,
+              });
+                
+              setLoggedIn(true);
+              history.push(locationPath);
+            } else {
+              localStorage.removeItem("token");
+              history.push("/");
+              return
+            }
+        })
+        .catch((err) => {
+            console.log(`Attention! ${err}`);
+            history.push("/");
+        })
+    }
   }, []);
 
   //Запрос информации пользователя
