@@ -41,10 +41,7 @@ function App() {
     .then((res) => {
       console.log(res);
         if(res) {
-          console.log('успешная регистрация');
           history.push("/signin");
-        } else {
-          console.log('плохая регистрация');
         }
     })
     .catch((err) => {
@@ -60,7 +57,6 @@ function App() {
           localStorage.setItem('token', res.token);
           tokenCheck()
           setLoggedIn(true);
-          console.log(localStorage);
           history.push('/movies');
         }
     })
@@ -83,10 +79,10 @@ function tokenCheck() {
               });
                 
               setLoggedIn(true);
-              history.push("/");
+              history.push("/movies");
             } else {
               localStorage.removeItem("token");
-              history.push("/movies");
+              history.push("/");
               return
             }
         })
@@ -261,7 +257,7 @@ function tokenCheck() {
             <Main />
           </Route>
 
-          <ProtectedRoute path="/movies">
+          <Route path="/movies">
             <Movies
             loggedIn={loggedIn}
             cards={sortedMovies}
@@ -273,9 +269,9 @@ function tokenCheck() {
             onDelete={deleteMovie}
             setMovieSavedIcon={setMovieSavedIcon}
             />
-          </ProtectedRoute>
+          </Route>
 
-          <ProtectedRoute path="/saved-movies">
+          <Route path="/saved-movies">
             <SavedMovies
             loggedIn={loggedIn}
             onSearch={searchSavedMovies}
@@ -283,14 +279,14 @@ function tokenCheck() {
             hideButton={isButtonHide}
             oResult={isNoSearchResult}
             onDelete={deleteMovie} />
-          </ProtectedRoute>
+          </Route>
 
-          <ProtectedRoute path="/profile">
+          <Route path="/profile">
             <Profile
             loggedIn={loggedIn}
             currentUser={currentUser}
              />
-          </ProtectedRoute>
+          </Route>
 
           <Route path="/signin">
             <Login
