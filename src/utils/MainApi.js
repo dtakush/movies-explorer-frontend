@@ -74,7 +74,11 @@ class MainApi {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,
+            })
         })
         .then((res) => {
             console.log(res);
