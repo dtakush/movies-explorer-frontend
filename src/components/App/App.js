@@ -17,7 +17,6 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 //API
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
-import * as auth from '../../utils/auth';
 
 function App() {
   const history = useHistory();
@@ -56,6 +55,7 @@ function App() {
     .then((res) => {
         if(res.token) {
           tokenCheck();
+          setLoggedIn(true);
           console.log('успешная логин');
           history.push('/movies');
         }
