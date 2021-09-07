@@ -71,7 +71,6 @@ function App() {
 
   //Проверка токена
 function tokenCheck() {
-    const locationPath = location.pathname;
     const token = localStorage.getItem('token');
 
     if(token) {
@@ -84,7 +83,7 @@ function tokenCheck() {
               });
                 
               setLoggedIn(true);
-              history.push(locationPath);
+              history.push("/");
             } else {
               localStorage.removeItem("token");
               history.push("/");
@@ -93,7 +92,7 @@ function tokenCheck() {
         })
         .catch((err) => {
             console.log(`Attention! ${err}`);
-            history.push("/");
+            history.push("/signin");
         })
     }
   }
