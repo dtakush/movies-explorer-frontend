@@ -128,7 +128,7 @@ function App() {
   }, []);
 
   //Запрос информации пользователя
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     if(loggedIn) {
         mainApi.getUserInfo()
         .then((userInfo) => {
@@ -139,7 +139,7 @@ function App() {
         });
     }
     
-  }, [loggedIn]);
+  }, [loggedIn]); */
 
   //Выход из аккаунта
   /* function handleSignOut() {
