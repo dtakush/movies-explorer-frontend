@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Компоненты
 import Main from '../Main/Main';
@@ -10,12 +11,21 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 
+//Контекст
+import { CurrentUserContext } from '../../context/CurrentUserContext';
+
 //API
 import moviesApi from '../../utils/MoviesApi';
 import mainApi from '../../utils/MainApi';
-import { logValidationWarning } from 'jest-validate';
+import * as auth from '../../utils/auth';
 
 function App() {
+  const history = useHistory();
+
+  //Переменные состояния
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -23,6 +33,86 @@ function App() {
   const [isButtonHide, setIsButtonHide] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
+
+  //Регистрация пользователя
+  function handleRegister({email, password}) {
+    auth.register(email, password)
+    .then((res) => {
+        if(res) {
+          history.push("/signin");
+        }
+    })
+    .catch((err) => {
+        console.log(`Attention! ${err}`);
+    })
+  }
+
+  //Авторизация пользователя
+  function handleLogin({email, password}) {
+    auth.authorize(email, password)
+    .then((res) => {
+        if(res.token) {
+          tokenCheck();
+          history.push('/movies');
+        }
+    })
+    .catch((err) => {
+        console.log(`Attention! ${err}`);
+    })
+  }
+
+  //Проверка токена
+  function tokenCheck() {
+    const jwt = localStorage.getItem('jwt');
+
+    if(jwt) {
+        auth.checkToken(jwt)
+        .then((res) => {
+            if(res) {
+                setUserData({ 
+                    email: res.email,
+                    id: res._id,
+                });
+                
+                setLoggedIn(true);
+                history.push("/");
+            } else {
+                localStorage.removeItem("jwt");
+                return
+            }
+        })
+        .catch((err) => {
+            console.log(`Attention! ${err}`);
+            history.push("/signin");
+        })
+    }
+  }
+
+  React.useEffect(() => {
+      tokenCheck();
+      // eslint-disable-next-line
+  }, []);
+
+  //Запрос информации пользователя
+  React.useEffect(() => {
+    if(loggedIn) {
+        mainApi.getUserInfo()
+        .then((userInfo) => {
+            setCurrentUser(userInfo);
+        })
+        .catch((err) => {
+            console.log(`Attention! ${err}`);
+        });
+    }
+    
+  }, [loggedIn]);
+
+  //Выход из аккаунта
+  /* function handleSignOut() {
+    setLoggedIn(false);
+    history.push("/signin");
+    localStorage.removeItem("jwt");
+  } */
 
   //Запрос карточек
   React.useEffect(() => {
@@ -50,20 +140,20 @@ function App() {
     const keyword = word.toLowerCase();
     const result = [];
     movies.forEach((item) => {
-        if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword))
-            ||
-            (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
-                  result.push(item);
-                  setIsNoSearchResult(false);
-                  setIsButtonHide(false)
-                  setSortedMovies(result);
-                  localStorage.setItem('movieSearchResult', JSON.stringify(result));
-                  //console.log(localStorage);
-              } else if (result.length < 1) {
-                  setIsNoSearchResult(true);
-                  setIsButtonHide(true);
-                  setSortedMovies([]);
-              }
+      if((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword))
+        ||
+        (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
+          result.push(item);
+          setIsNoSearchResult(false);
+          setIsButtonHide(false)
+          setSortedMovies(result);
+          localStorage.setItem('movieSearchResult', JSON.stringify(result));
+          //console.log(localStorage);
+        } else if (result.length < 1) {
+          setIsNoSearchResult(true);
+          setIsButtonHide(true);
+          setSortedMovies([]);
+        }
     })
   }
 
@@ -73,20 +163,20 @@ function App() {
     const keyword = word.toLowerCase();
     const result = [];
     savedMovies.forEach((item) => {
-        if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword))
-            ||
-            (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
-                  result.push(item);
-                  setIsNoSearchResult(false);
-                  setIsButtonHide(false)
-                  setSavedMovies(result);
-                  localStorage.setItem('savedMovieSearchResult', JSON.stringify(result));
-                  //console.log(localStorage);
-              } else if (result.length < 1) {
-                  setIsNoSearchResult(true);
-                  setIsButtonHide(true);
-                  setSavedMovies([]);
-              }
+      if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword))
+          ||
+          (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
+            result.push(item);
+            setIsNoSearchResult(false);
+            setIsButtonHide(false)
+            setSavedMovies(result);
+            localStorage.setItem('savedMovieSearchResult', JSON.stringify(result));
+            //console.log(localStorage);
+      } else if (result.length < 1) {
+            setIsNoSearchResult(true);
+            setIsButtonHide(true);
+            setSavedMovies([]);
+      }
     })
   }
 
@@ -131,50 +221,60 @@ function App() {
 
 
   return (
-    <div className="page">
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Switch>
+          <ProtectedRoute exact path="/">
+            <Main />
+          </ProtectedRoute>
 
-        <Route path="/movies">
-          <Movies
-          cards={sortedMovies}
-          onSearch={searchMovies}
-          hideButton={isButtonHide}
-          noResult={isNoSearchResult}
-          onSave={saveMovies}
-          isMovieSaved={isMovieSaved}
-          onDelete={deleteMovie}
-          setMovieSavedIcon={setMovieSavedIcon}
-          />
-        </Route>
+          <ProtectedRoute path="/movies">
+            <Movies
+            loggedIn={loggedIn}
+            cards={sortedMovies}
+            onSearch={searchMovies}
+            hideButton={isButtonHide}
+            noResult={isNoSearchResult}
+            onSave={saveMovies}
+            isMovieSaved={isMovieSaved}
+            onDelete={deleteMovie}
+            setMovieSavedIcon={setMovieSavedIcon}
+            />
+          </ProtectedRoute>
 
-        <Route path="/saved-movies">
-          <SavedMovies
-          onSearch={searchSavedMovies}
-          cards={savedMovies}
-          hideButton={isButtonHide}
-          oResult={isNoSearchResult} />
-        </Route>
+          <ProtectedRoute path="/saved-movies">
+            <SavedMovies
+            loggedIn={loggedIn}
+            onSearch={searchSavedMovies}
+            cards={savedMovies}
+            hideButton={isButtonHide}
+            oResult={isNoSearchResult}
+            onDelete={deleteMovie} />
+          </ProtectedRoute>
 
-        <Route path="/profile">
-          <Profile />
-        </Route>
+          <ProtectedRoute path="/profile">
+            <Profile
+            loggedIn={loggedIn}
+            currentUser={currentUser}
+             />
+          </ProtectedRoute>
 
-        <Route path="/signin">
-          <Login />
-        </Route>
-        
-        <Route path="/signup">
-          <Register />
-        </Route>
+          <Route path="/signin">
+            <Login
+            onLogin={handleLogin} />
+          </Route>
+          
+          <Route path="/signup">
+            <Register
+            onRegister={handleRegister} />
+          </Route>
 
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
-    </div>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </div>
+    </CurrentUserContext.Provider>
     
   );
 }

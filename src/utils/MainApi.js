@@ -6,6 +6,28 @@ class MainApi {
         this.headers = headers;
     }
 
+    //Запрос информации о пользователе    
+    getUserInfo() {
+        return fetch(`${this.baseUrl}/users/me`, {
+          method: 'GET',
+          headers: this.headers
+        })
+        .then(this._checkResponse)
+    }
+
+    //Изменение информации о пользователе
+    setUserInfo(data) {
+        return fetch(`${this.baseUrl}/users/me`, {
+          method: 'PATCH',
+          headers: this.headers,
+          body: JSON.stringify({
+            name: data.name,
+            about: data.about
+          })
+        })
+        .then(this._checkResponse)
+    }
+
     //сохранение фильма
     saveMovie(movie) {
         return fetch(`${this.baseUrl}/movies`, {

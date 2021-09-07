@@ -20,8 +20,11 @@ function useValidation(userData) {
 
     return {
         formValues,
+        setFormValues,
         errors,
+        setErrors,
         isInputValid,
+        setIsInputValid,
         handleInputChange,
     };
 }
