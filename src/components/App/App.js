@@ -35,8 +35,8 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   //Регистрация пользователя
-  function handleRegister({name,email, password}) {
-    auth.register(name,email, password)
+  function handleRegister({name, email, password}) {
+    mainApi.register(name, email, password)
     .then((res) => {
         if(res) {
           console.log('успешная регситрация');
@@ -52,7 +52,7 @@ function App() {
 
   //Авторизация пользователя
   function handleLogin({email, password}) {
-    auth.authorize(email, password)
+    mainApi.authorize(email, password)
     .then((res) => {
         if(res.token) {
           tokenCheck();
@@ -71,7 +71,7 @@ function App() {
     const jwt = localStorage.getItem('jwt');
 
     if(jwt) {
-        auth.checkToken(jwt)
+      mainApi.checkToken(jwt)
         .then((res) => {
             if(res) {
                 setUserData({ 
