@@ -71,7 +71,9 @@ class MainApi {
     register (name, email, password) {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({ name, email, password })
         })
         .then((res) => {
@@ -96,7 +98,10 @@ class MainApi {
     authorize (email, password) {
         return fetch(`${this.baseUrl}/signin`, {
             method: "POST",
-            headers: this._headers,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
             body: JSON.stringify({email, password})
             })
         .then((res) => {
@@ -125,7 +130,6 @@ class MainApi {
         return fetch(`${this.baseUrl}/users/me`, {
             method: "GET",
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             }

@@ -5,25 +5,13 @@ import useValidation from '../../utils/formValidation';
 import Entrance from '../Entrance/Entrance';
 
 function Login(props) {
-    const {
-        errors,
-    } = useValidation({});
+    const formValidation = useValidation();
+    const { email, password } = formValidation.formValues;
 
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    
-    function handleChangeEmail(e) {
-        setEmail(e.target.value);
-    }
-        
-    function handleChangePassword(e) {
-        setPassword(e.target.value);
-    }
-    
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        props.onLogin({ email, password });
-    }
+        props.onSubmit(email, password);
+    };
 
     return (
         <section className="login">
@@ -37,32 +25,34 @@ function Login(props) {
             >
                 <p className="entrance__form-text">E-mail</p>
                     <input
-                    name="loginEmail"
+                    name="email"
                     id="login-email"
                     className="entrance__input entrance__input-email"
                     placeholder="Введите свою почту"
                     type="email"
                     required
-                    value={email || ''}
-                    onChange={handleChangeEmail} />
+                    value={formValidation.formValues.email || ''}
+                    onChange={formValidation.handleInputChange}
+                    />
                     <span
                     className="entrance__input-error"
-                    id="login-email-error">{errors.loginEmail}</span>
+                    id="login-email-error">{formValidation.errors.email}</span>
 
                     <p className="entrance__form-text">Пароль</p>
                     <input
-                    name="loginPassword"
+                    name="password"
                     id="login-password"
                     className="entrance__input entrance__input-password"
                     placeholder="Введите пароль"
                     type="password"
                     required
                     minLength="5"
-                    value={password || ''}
-                    onChange={handleChangePassword} />
+                    value={formValidation.formValues.password || ''}
+                    onChange={formValidation.handleInputChange}
+                    />
                     <span
                     className="entrance__input-error"
-                    id="login-password-error">{errors.loginPassword}</span>
+                    id="login-password-error">{formValidation.errors.password}</span>
             </Entrance>    
         </section>
     )

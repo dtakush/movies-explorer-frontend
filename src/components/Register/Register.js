@@ -5,30 +5,13 @@ import useValidation from '../../utils/formValidation';
 import Entrance from '../Entrance/Entrance';
 
 function Register(props) {
-    const {
-        errors,
-    } = useValidation({});
+    const formValidation = useValidation();
+    const { name, email, password } = formValidation.formValues;
 
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    
-    function handleChangeName(e) {
-        setName(e.target.value);
-    }
-    
-    function handleChangeEmail(e) {
-        setEmail(e.target.value);
-    }
-        
-    function handleChangePassword(e) {
-        setPassword(e.target.value);
-    }
-    
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        props.onRegister({ name, email, password });
-    }
+        props.onSubmit(name, email, password);
+    };
 
     return (
         <section className="register">
@@ -42,47 +25,50 @@ function Register(props) {
             >
                 <p className="entrance__form-text">Имя</p>
                     <input
-                    name="registerName"
+                    name="name"
                     id="register-name"
                     className="entrance__input entrance__input-name"
                     placeholder="Введите имя"
                     type="text"
                     required
                     minLength="3"
-                    value={name || ''}
-                    onChange={handleChangeName} />
+                    value={formValidation.formValues.name || ''}
+                    onChange={formValidation.handleInputChange}
+                    />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-name-error">{errors.registerName}</span>
+                    id="entrance__input-name-error">{formValidation.errors.name}</span>
 
                     <p className="entrance__form-text">E-mail</p>
                     <input
-                    name="registerEmail"
+                    name="email"
                     id="register-email"
                     className="entrance__input entrance__input-email"
                     placeholder="Введите свою почту"
                     type="email"
                     required
-                    value={email || ''}
-                    onChange={handleChangeEmail} />
+                    value={formValidation.formValues.email || ''}
+                    onChange={formValidation.handleInputChange}
+                    />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-email-error">{errors.registerEmail}</span>
+                    id="entrance__input-email-error">{formValidation.errors.email}</span>
 
                     <p className="entrance__form-text">Пароль</p>
                     <input
-                    name="registerPassword"
+                    name="password"
                     id="register-password"
                     className="entrance__input entrance__input-password"
                     placeholder="Введите пароль"
                     type="password"
                     required
                     minLength="5"
-                    value={password || ''}
-                    onChange={handleChangePassword} />
+                    value={formValidation.formValues.password || ''}
+                    onChange={formValidation.handleInputChange}
+                    />
                     <span
                     className="entrance__input-error"
-                    id="register-password-error">{errors.registerPassword}</span>
+                    id="register-password-error">{formValidation.errors.password}</span>
 
             </Entrance>
         </section>
