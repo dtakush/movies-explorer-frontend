@@ -1,7 +1,6 @@
 import React from 'react';
 
 // Компоненты
-import savedCards from '../../utils/savedCards';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
@@ -12,9 +11,15 @@ function SavedMovies(props) {
     return (
         <>
             <Header />
-            <SearchForm />
+            <SearchForm
+            onSearch={props.onSearch}
+            />
+
             <MoviesCardList
-            cards={savedCards}
+            cards={props.cards}
+            hideButton={props.hideButton}
+            noResult={props.noResult}
+            onDelete={props.onDelete}
             />
             <Footer />
         </>    

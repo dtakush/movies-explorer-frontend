@@ -27,22 +27,31 @@ function MoviesCardList(props) {
 
     React.useEffect(() => {
         const windowInnerWidth = window.innerWidth;
-        const totalNumberOfMovies = Math.min(props.cards.cards.length, getNumberOfMovies(windowInnerWidth).first);
-        setRenderedMovies(props.cards.cards.slice(0, totalNumberOfMovies));
+        const totalNumberOfMovies = Math.min(props.cards.length, getNumberOfMovies(windowInnerWidth).first);
+        setRenderedMovies(props.cards.slice(0, totalNumberOfMovies));
         /* console.log(windowInnerWidth); */
         /* console.log(renderedMovies); */
-    }, [props.cards.cards])
+    }, [props.cards])
 
     return (
         <section className="movies-cards">
+            {props.noResult
+                ? <p className="movies-cards__no-result">Поиск не дал результатов</p>
+                : ''}
             <div className="movies-cards__container">
                 {renderedMovies.map((item) => {
                 return (
                     <MoviesCard
-                    key={item.key}
-                    title={item.title}
+                    key={item.id}
+                    movie={item}
+                    nameRU={item.nameRU}
                     duration={item.duration}
-                    link={item.link}
+                    trailerLink={item.trailerLink}
+                    image={item.image.url}
+                    onSave={props.onSave}
+                    isMovieSaved={props.isMovieSaved}
+                    onDelete={props.onDelete}
+                    setMovieSavedIcon={props.setMovieSavedIcon}
                     />
                     )
                 })}
@@ -51,8 +60,11 @@ function MoviesCardList(props) {
             type="button"
             className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
-                            : "movies-cards__more-button_saved"}`
-                        }>
+                            : "movies-cards__more-button_saved"}
+                        ${props.isButtonHide
+                            ? ''
+                            : 'movies-cards__more-button_hide'}`}
+            >
                 Ещё
             </button>
         </section>
