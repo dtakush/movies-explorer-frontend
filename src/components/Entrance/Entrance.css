@@ -64,6 +64,7 @@
     height: 45px;
     border-radius: 3px;
     border: none;
+    cursor: pointer;
     font-size: .87rem;
     font-weight: 500;
     color: #fff;

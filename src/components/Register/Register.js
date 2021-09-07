@@ -33,6 +33,7 @@ function Register(props) {
     return (
         <section className="register">
             <Entrance
+            name="register"
             title='Добро пожаловать!'
             buttonText='Зарегистрироваться'
             entranceText='Уже зарегистрированы?'

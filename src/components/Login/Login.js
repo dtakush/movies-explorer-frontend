@@ -28,6 +28,7 @@ function Login(props) {
     return (
         <section className="login">
             <Entrance
+            name="login"
             title='Рады видеть!'
             buttonText='Войти'
             entranceText='Ещё не зарегистрированы?'

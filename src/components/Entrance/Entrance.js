@@ -7,16 +7,15 @@ import logo from '../../images/logo.svg';
 
 function Entrance(props) {
     let location = useLocation();
-    
-    const {
-        isInputValid,
-        } = useValidation({});
 
     return (
             <div className="entrance__container">
                 <Link to="/" className="entrance__logo"><img src={logo} alt="Логотип проекта"/></Link>
                 <h3 className="entrance__hello">{props.title}</h3>
-                <form className="entrance__form">
+                <form
+                className="entrance__form"
+                id={`${props.name}-form`}
+                onSubmit={props.onSubmit}>
 
                     {props.children}
                         
@@ -24,7 +23,8 @@ function Entrance(props) {
                     className={`${location.pathname === '/signin' 
                                     ? "entrance__button entrance__button-login"
                                     : "entrance__button"}`}
-                    disabled={!isInputValid}
+                    type="submit"
+                    id="entrance__submit"
                     >
                         {props.buttonText}
                     </button>
