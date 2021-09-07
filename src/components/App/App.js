@@ -35,12 +35,14 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   //Регистрация пользователя
-  function handleRegister({email, password}) {
-    auth.register(email, password)
+  function handleRegister({name,email, password}) {
+    auth.register(name,email, password)
     .then((res) => {
         if(res) {
           console.log('успешная регситрация');
           history.push("/signin");
+        } else {
+          console.log('плохая регситрация');
         }
     })
     .catch((err) => {
