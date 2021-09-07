@@ -58,8 +58,9 @@ function App() {
     .then((res) => {
         if(res) {
           localStorage.setItem('token', res.token);
+          tokenCheck()
           setLoggedIn(true);
-          console.log('успешный вход');
+          console.log(localStorage);
           history.push('/movies');
         }
     })
@@ -69,8 +70,7 @@ function App() {
   }
 
   //Проверка токена
-  /* function tokenCheck() {
-    console.log(localStorage);
+function tokenCheck() {
     const locationPath = location.pathname;
     const token = localStorage.getItem('token');
 
@@ -96,9 +96,9 @@ function App() {
             history.push("/");
         })
     }
-  } */
+  }
 
-  React.useEffect(() => {
+  /*  React.useEffect(() => {
     const locationPath = location.pathname;
     const token = localStorage.getItem('token');
     console.log(token);
@@ -128,7 +128,7 @@ function App() {
   }, []);
 
   //Запрос информации пользователя
-  /* React.useEffect(() => {
+  React.useEffect(() => {
     if(loggedIn) {
         mainApi.getUserInfo()
         .then((userInfo) => {
