@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import useValidation from '../../utils/formValidation';
 
 // Компоненты
 import logo from '../../images/logo.svg';
@@ -30,7 +29,7 @@ function Entrance(props) {
                         {props.buttonText}
                     </button>
                 </form>
-                
+
                 <div className="entrance__come-in">
                     <p className="entrance__text">{props.entranceText}</p>
                     <Link

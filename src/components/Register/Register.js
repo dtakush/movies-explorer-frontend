@@ -1,13 +1,13 @@
 import React from 'react';
-import useValidation from '../../utils/formValidation';
+// import useValidation from '../../utils/formValidation';
 
 // Компоненты
 import Entrance from '../Entrance/Entrance';
 
 function Register(props) {
-    const {
+    /* const {
         errors,
-    } = useValidation({});
+    } = useValidation({}); */
 
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
@@ -53,7 +53,7 @@ function Register(props) {
                     onChange={handleChangeName} />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-name-error">{errors.registerName}</span>
+                    id="entrance__input-name-error">error</span>
 
                     <p className="entrance__form-text">E-mail</p>
                     <input
@@ -67,7 +67,7 @@ function Register(props) {
                     onChange={handleChangeEmail} />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-email-error">{errors.registerEmail}</span>
+                    id="entrance__input-email-error">error</span>
 
                     <p className="entrance__form-text">Пароль</p>
                     <input
@@ -82,7 +82,7 @@ function Register(props) {
                     onChange={handleChangePassword} />
                     <span
                     className="entrance__input-error"
-                    id="register-password-error">{errors.registerPassword}</span>
+                    id="register-password-error">error</span>
 
             </Entrance>
         </section>
