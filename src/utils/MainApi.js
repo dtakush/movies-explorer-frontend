@@ -72,12 +72,10 @@ class MainApi {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
             headers: this._headers,
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password})
+            body: JSON.stringify({ name, email, password })
         })
         .then((res) => {
+            console.log(res);
             if(res.status === 200) {
                 return res.json();
             }
