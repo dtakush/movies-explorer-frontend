@@ -86,7 +86,7 @@ function tokenCheck() {
               history.push("/");
             } else {
               localStorage.removeItem("token");
-              history.push("/");
+              history.push("/movies");
               return
             }
         })
