@@ -59,6 +59,14 @@ class MainApi {
         .then(this._checkResponse)
     }
 
+    updateHeaders() {
+        this.headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        }
+      }
+
     _checkResponse(res){
         if (res.ok) {
           return res.json();

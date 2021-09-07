@@ -39,6 +39,7 @@ function App() {
     auth.register(email, password)
     .then((res) => {
         if(res) {
+          console.log('успешная регситрация');
           history.push("/signin");
         }
     })
@@ -53,6 +54,7 @@ function App() {
     .then((res) => {
         if(res.token) {
           tokenCheck();
+          console.log('успешная логин');
           history.push('/movies');
         }
     })
@@ -63,6 +65,7 @@ function App() {
 
   //Проверка токена
   function tokenCheck() {
+    console.log(localStorage);
     const jwt = localStorage.getItem('jwt');
 
     if(jwt) {
@@ -224,9 +227,9 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-          <ProtectedRoute exact path="/">
+          <Route exact path="/">
             <Main />
-          </ProtectedRoute>
+          </Route>
 
           <ProtectedRoute path="/movies">
             <Movies
