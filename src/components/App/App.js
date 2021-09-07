@@ -36,9 +36,10 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   //Регистрация пользователя
-  function handleRegister({name, email, password}) {
+  function handleRegister(name, email, password) {
     mainApi.register(name, email, password)
     .then((res) => {
+      console.log(res);
         if(res) {
           console.log('успешная регистрация');
           history.push("/signin");
@@ -52,7 +53,7 @@ function App() {
   }
 
   //Авторизация пользователя
-  function handleLogin({email, password}) {
+  function handleLogin(email, password) {
     mainApi.authorize(email, password)
     .then((res) => {
         if(res) {
