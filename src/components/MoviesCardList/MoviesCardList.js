@@ -61,6 +61,7 @@ function MoviesCardList(props) {
                     trailerLink={item.trailerLink}
                     image={item.image.url}
                     onSaveClick={props.onSaveClick}
+                    onDelete={props.onDelete}
                     savedMovies={props.savedMovies}
                     isSavedMovie={props.isSavedMovie}
                     />

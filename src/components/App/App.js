@@ -32,6 +32,7 @@ function App() {
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const isMoviesSaved = true;
 
   //Регистрация пользователя
   function handleRegister(name, email, password) {
@@ -181,39 +182,28 @@ function tokenCheck() {
   }
 
   //Сохранение фильмов
-  function onSaveClick(movie, isMarked) {
-    if (isMarked) {
-      handleSaveMovie(movie);
-    } else {
-      handleDeleteMovie(movie);
-    }
-  }
-
   function handleSaveMovie(movie) {
     console.log(movie);
     mainApi.saveMovie(movie)
       .then((res) => {
         console.log(res);
-        setSavedMovies([...savedMovies, { ...res, id: res.movieId }]);
+        setSavedMovies([movie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
       })   
   }
 
-  function isSavedMovie(movie) {
-    console.log(movie);
-    console.log(savedMovies);
-    return savedMovies.some((item) => item.id === movie.id);
-  }
-
   //Удаление фильмов
   function handleDeleteMovie(movie) {
-    mainApi.deleteMovie(movie.movieId)
+    mainApi.deleteMovie(movie.id)
       .then(() => {
-        setSavedMovies(savedMovies.filter(
-          (item) => item._id !== movie.movieId
-        ));
+        const SavedMoviesList = savedMovies.filter((m) => m._id !== movie._id);
+        const SavedFilteredMoviesList = savedMovies.filter(
+          (m) => m._id !== movie._id
+        );
+        setSavedMovies(SavedMoviesList);
+        //setSavedFilteredMovies(SavedFilteredMoviesList);
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -236,9 +226,10 @@ function tokenCheck() {
             onSearch={searchMovies}
             hideButton={isButtonHide}
             noResult={isNoSearchResult}
-            onSaveClick={onSaveClick}
+            onSaveClick={handleSaveMovie}
+            onDelete={handleDeleteMovie}
             savedMovies={savedMovies}
-            isSavedMovie={isSavedMovie}
+            isMoviesSaved={isMoviesSaved}
             />
           </Route>
 

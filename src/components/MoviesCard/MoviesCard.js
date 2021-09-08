@@ -12,53 +12,48 @@ function MoviesCard(props) {
     }
 
     //Сохранение фильма
-    const [isSaved, setIsSaved] = React.useState(false);
+    const [isMovieSaved, setIsMovieSaved] = React.useState(false);
 
-    //const isSaved = props.isSavedMovie(props.movie);
+    const setLikes = React.useCallback(() => {
+        const isMovieLiked = props.savedMovies.find((movie) => movie.movieId === props.movie.id);
+        if (isMovieLiked) {
+        setIsMovieSaved(true);
+        } else {
+        setIsMovieSaved(false);
+        }
+    }, [props.movie.id, props.savedMovies]);
 
-    //const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    console.log(props.movie);
-    //const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
-
-    //сохранить фильм
-    function handleSaveClick(evt) {
-        evt.preventDefault();
-        props.onSaveClick(props.movie, !isSaved);
-        setIsSaved(!isSaved);
-      }
+    React.useEffect(() => {
+        setLikes();
+    }, [setLikes]);
     
-      function handleDeleteClick() {
-        props.onSaveClick(props.movie, false);
-      }
 
-    /* function handleSave() {
-        props.onSave({
-            country: props.movie.country,
-            description: props.movie.description,
-            director: props.movie.director,
-            duration: props.movie.duration,
-            movieId: props.movie.id,
-            image: `https://api.nomoreparties.co${props.movie.image.url}`,
-            nameEN: props.movie.nameEN,
-            nameRU: props.movie.nameRU,
-            trailerLink: props.movie.trailerLink,
-            year: props.movie.year,
-        });
-        //console.log(movie);
-        setIsSaved(true);
+    function handleSaveClick() {
+        if (!isMovieSaved) {
+            props.onSaveClick({
+                country: props.movie.country || "no country",
+                director: props.movie.director,
+                duration: props.movie.duration,
+                year: props.movie.year,
+                description: props.movie.description,
+                image: props.movie.image.url,
+                trailer: props.movie.trailerLink || "trailer",
+                movieId: props.movie.id,
+                nameRU: props.movie.nameRU || "no nameRU",
+                nameEN: props.movie.nameEN || "no nameEN",
+                thumbnail: props.movie.image.formats.thumbnail.url
+            });
+            setIsMovieSaved(true);
+        } else {
+            const savedMovie = props.savedMovies.find((movie) => movie.movieId === props.movie.id);
+            props.onDelete(savedMovie);
+            setIsMovieSaved(false);
+        }
     }
 
-    //удалить из сохраненного
-    function handleRemoveSave() {
-        setIsSaved(false);
-        //console.log(currentMovie);
-        //props.onDeleteMovie(currentMovie._id);
+    function handleDeleteClick() {
+        props.onDelete(props.movie);
     }
-
-    //удалить сохраненный
-    function handleDeleteMovie() {
-        props.onSaveClick(movie, false);
-    } */
 
     return (
         <div className="card">
@@ -68,12 +63,12 @@ function MoviesCard(props) {
                     <p className="card__duraton">{durationToString(props.duration)}</p>
                 </div>
 
-                {location.pathname === '/movies' && !isSaved && (
+                {location.pathname === '/movies' && !isMovieSaved && (
                     <button className='card__save-button' onClick={handleSaveClick}>
                         <div className='card__save-icon'></div>
                     </button>)}
-                {location.pathname === '/movies' && isSaved && (
-                    <button className='card__save-button card__save-button_active' onClick={handleDeleteClick}>
+                {location.pathname === '/movies' && isMovieSaved && (
+                    <button className='card__save-button card__save-button_active' onClick={handleSaveClick}>
                         <div className='card__save-icon card__save-icon_active'></div>
                     </button>)}
                 {location.pathname === '/saved-movies' && (

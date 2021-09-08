@@ -1,4 +1,5 @@
 import { mainBaseUrl } from "./constants";
+import moviesApi from "./MoviesApi";
 
 class MainApi {
     constructor({baseUrl, headers}) {
@@ -37,23 +38,11 @@ class MainApi {
     };
 
     //сохранение фильма
-    saveMovie(movie) {
+    saveMovie(movieData) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify({
-                country: movie.country,
-                director: movie.director,
-                duration: movie.duration,
-                year: movie.year,
-                description: movie.description,
-                image: movie.image,
-                trailer: movie.trailer,
-                thumbnail: movie.image,
-                movieId: movie.id,
-                nameRU: movie.nameRU,
-                nameEN: movie.nameEN,
-            }),
+            body: JSON.stringify(movieData),
         })
         .then(this._checkResponse)
     }
