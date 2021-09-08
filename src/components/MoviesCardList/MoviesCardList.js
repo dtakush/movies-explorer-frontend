@@ -73,7 +73,7 @@ function MoviesCardList(props) {
             className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
                             : "movies-cards__more-button_saved"}
-                        ${props.movies.length > renderedMovies.length
+                        ${props.cards.length > renderedMovies.length
                             ? ''
                             : 'movies-cards__more-button_hide'}`}
             >

@@ -17,7 +17,8 @@ function MoviesCard(props) {
     const [isSaved, setIsSaved] = React.useState(false);
 
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
+    console.log(localStorage);
+    //const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
 
     const movie = {
         country: props.movie.country || 'No information',
@@ -34,17 +35,17 @@ function MoviesCard(props) {
     }
 
     //сохранить фильм
-    function handleLike() {
-        props.onMovieSave(movie);
-        console.log(currentMovie);
+    function handleSave() {
+        props.onSave(movie);
+        //console.log(movie);
         setIsSaved(true);
     }
 
     //удалить из сохраненного
     function handleRemoveLike() {
         setIsSaved(false);
-        console.log(currentMovie);
-        props.onDeleteMovie(currentMovie._id);
+        //console.log(currentMovie);
+        //props.onDeleteMovie(currentMovie._id);
     }
 
     //удалить сохраненный
@@ -62,7 +63,7 @@ function MoviesCard(props) {
                 </div>
 
                 {location.pathname === '/movies' && !isSaved && (
-                    <button className='card__save-button' onClick={handleLike}>
+                    <button className='card__save-button' onClick={handleSave}>
                         <div className='card__save-icon'></div>
                     </button>)}
                 {location.pathname === '/movies' && isSaved && (
