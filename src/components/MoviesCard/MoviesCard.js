@@ -17,10 +17,10 @@ function MoviesCard(props) {
     const [isSaved, setIsSaved] = React.useState(false);
 
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    console.log(localStorage);
+    console.log(props.movie);
     //const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
 
-    const movie = {
+    /* const movie = {
         country: props.movie.country || 'No information',
         director: props.movie.director || 'No information',
         duration: props.movie.duration || 0,
@@ -32,11 +32,23 @@ function MoviesCard(props) {
         nameEN: props.movie.nameEN || 'No information',
         thumbnail: mainBaseUrl + props.movie.thumbnail,
         movieId: props.movie.movieId,
-    }
+    } */
 
     //сохранить фильм
     function handleSave() {
-        props.onSave(movie);
+        props.onSave({
+            country: props.movie.country || 'No information',
+            director: props.movie.director || 'No information',
+            duration: props.movie.duration || 0,
+            year: props.movie.year || 'No information',
+            description: props.movie.description || 'No information',
+            image: `https://api.nomoreparties.co${props.movie.image}` || 'No information',
+            trailer: props.movie.trailer || 'No information',
+            nameRU: props.movie.nameRU || 'No information',
+            nameEN: props.movie.nameEN || 'No information',
+            thumbnail: `https://api.nomoreparties.co${props.movie.thumbnail}` || 'No information',
+            movieId: props.movie.id,
+        });
         //console.log(movie);
         setIsSaved(true);
     }

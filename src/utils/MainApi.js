@@ -37,13 +37,10 @@ class MainApi {
     };
 
     //сохранение фильма
-    saveMovie(token, movie) {
+    saveMovie(movie) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
+            headers: this.headers,
             body: JSON.stringify({
                 country: movie.country,
                 director: movie.director,
