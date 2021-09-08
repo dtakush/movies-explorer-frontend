@@ -24,7 +24,6 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState({});
-  const [token, setToken] = React.useState('');
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -77,7 +76,6 @@ function tokenCheck() {
               });
                 
               setLoggedIn(true);
-              setToken(token);
               history.push("/movies");
             } else {
               localStorage.removeItem("token");
@@ -183,6 +181,7 @@ function tokenCheck() {
 
   //Сохранение фильмов
   function handleSaveMovies(movie) {
+    console.log(movie);
     mainApi.saveMovie(movie)
       .then((savedMovie) => {
         console.log(savedMovie);

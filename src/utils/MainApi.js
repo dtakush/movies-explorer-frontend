@@ -43,16 +43,15 @@ class MainApi {
             headers: this.headers,
             body: JSON.stringify({
                 country: movie.country,
+                description: movie.description,
                 director: movie.director,
                 duration: movie.duration,
-                year: movie.year,
-                description: movie.description,
+                movieId: movie.movieId,
                 image: movie.image,
-                trailer: movie.trailer,
-                nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
+                nameRU: movie.nameRU,
                 trailerLink: movie.trailerLink,
-                movieId: movie.movieId
+                year: movie.year,
             })
           })
           .then(this._checkResponse)

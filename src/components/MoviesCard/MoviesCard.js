@@ -1,8 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { mainBaseUrl } from '../../utils/constants';
-
 function MoviesCard(props) {
     let location = useLocation();
     
