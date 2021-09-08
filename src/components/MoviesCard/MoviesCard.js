@@ -20,41 +20,26 @@ function MoviesCard(props) {
     console.log(props.movie);
     //const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
 
-    /* const movie = {
-        country: props.movie.country || 'No information',
-        director: props.movie.director || 'No information',
-        duration: props.movie.duration || 0,
-        year: props.movie.year || 'No information',
-        description: props.movie.description || 'No information',
-        image: mainBaseUrl + props.movie.image,
-        trailer: props.movie.trailer,
-        nameRU: props.movie.nameRU || 'No information',
-        nameEN: props.movie.nameEN || 'No information',
-        thumbnail: mainBaseUrl + props.movie.thumbnail,
-        movieId: props.movie.movieId,
-    } */
-
     //сохранить фильм
     function handleSave() {
         props.onSave({
-            country: props.movie.country || 'No information',
-            director: props.movie.director || 'No information',
-            duration: props.movie.duration || 0,
-            year: props.movie.year || 'No information',
-            description: props.movie.description || 'No information',
-            image: `https://api.nomoreparties.co${props.movie.image}` || 'No information',
-            trailer: props.movie.trailer || 'No information',
-            nameRU: props.movie.nameRU || 'No information',
-            nameEN: props.movie.nameEN || 'No information',
-            thumbnail: `https://api.nomoreparties.co${props.movie.thumbnail}` || 'No information',
+            country: props.movie.country,
+            description: props.movie.description,
+            director: props.movie.director,
+            duration: props.movie.duration,
             movieId: props.movie.id,
+            image: `https://api.nomoreparties.co${props.movie.image.url}`,
+            nameEN: props.movie.nameEN,
+            nameRU: props.movie.nameRU,
+            trailerLink: `https://api.nomoreparties.co${props.movie.trailerLink}`,
+            year: props.movie.year,
         });
         //console.log(movie);
         setIsSaved(true);
     }
 
     //удалить из сохраненного
-    function handleRemoveLike() {
+    function handleRemoveSave() {
         setIsSaved(false);
         //console.log(currentMovie);
         //props.onDeleteMovie(currentMovie._id);
@@ -79,7 +64,7 @@ function MoviesCard(props) {
                         <div className='card__save-icon'></div>
                     </button>)}
                 {location.pathname === '/movies' && isSaved && (
-                    <button className='card__save-button card__save-button_active' onClick={handleRemoveLike}>
+                    <button className='card__save-button card__save-button_active' onClick={handleRemoveSave}>
                         <div className='card__save-icon card__save-icon_active'></div>
                     </button>)}
                 {location.pathname === '/saved-movies' && (

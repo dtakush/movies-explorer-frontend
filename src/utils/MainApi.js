@@ -51,8 +51,8 @@ class MainApi {
                 trailer: movie.trailer,
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
-                thumbnail: movie.thumbnail,
-                movieId: movie.movieId,
+                trailerLink: movie.trailerLink,
+                movieId: movie.movieId
             })
           })
           .then(this._checkResponse)

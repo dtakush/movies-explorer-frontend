@@ -183,11 +183,12 @@ function tokenCheck() {
 
   //Сохранение фильмов
   function handleSaveMovies(movie) {
-    mainApi.saveMovie(token, movie)
+    mainApi.saveMovie(movie)
       .then((savedMovie) => {
         console.log(savedMovie);
         const movies = [...savedMovies, savedMovie];
         localStorage.setItem('savedMovies', JSON.stringify(movies));
+        console.log(localStorage);
         setSavedMovies(prevState => ([...prevState, savedMovie]));
       })
       .catch((err) => {
