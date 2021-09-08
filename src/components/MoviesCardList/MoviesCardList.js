@@ -12,18 +12,30 @@ function MoviesCardList(props) {
     const minWindowSize = 319;
 
     const [renderedMovies, setRenderedMovies] = useState([]);
+    const [moviesCount, setMoviesCount] = useState(0);
+    const [extraRow, setExtraRow] = useState(3);
 
     const getNumberOfMovies = (windowSize) => {
         if(windowSize > maxWindowSize) {
-            return {first: 12};
+            return {first: 12, extra: 3};
         }
         if (windowSize < maxWindowSize && windowSize > midWindowSize) {
-            return {first: 8}
+            return {first: 8, extra: 2}
         }
         if (windowSize < midWindowSize && windowSize > minWindowSize) {
-            return {first: 5}
+            return {first: 5, extra: 5}
         }
     }
+
+    const generateExtraRow = () => {
+        const count = Math.min(props.cards.length, moviesCount + extraRow);
+        const extraMovies = props.cards.slice(moviesCount, count);
+        
+        setRenderedMovies([...renderedMovies, ...extraMovies]);
+        setMoviesCount(count);
+    };
+
+    const renderMoreMovies = () => generateExtraRow();
 
     React.useEffect(() => {
         const windowInnerWidth = window.innerWidth;
@@ -49,19 +61,19 @@ function MoviesCardList(props) {
                     trailerLink={item.trailerLink}
                     image={item.image.url}
                     onSave={props.onSave}
-                    isMovieSaved={props.isMovieSaved}
                     onDelete={props.onDelete}
-                    setMovieSavedIcon={props.setMovieSavedIcon}
+                    savedMovies={props.savedMovies}
                     />
                     )
                 })}
             </div>
             <button
             type="button"
+            onClick={renderMoreMovies}
             className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
                             : "movies-cards__more-button_saved"}
-                        ${props.isButtonHide
+                        ${props.movies.length > renderedMovies.length
                             ? ''
                             : 'movies-cards__more-button_hide'}`}
             >

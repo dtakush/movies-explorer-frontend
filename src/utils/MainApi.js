@@ -28,6 +28,14 @@ class MainApi {
         .then(this._checkResponse)
     }
 
+    //запрос сохраненных фильмов
+    getSavedMovies() {
+        return fetch(`${this.baseUrl}/movies`, {
+            method: 'GET',
+            headers: this.headers,
+        })
+    };
+
     //сохранение фильма
     saveMovie(movie) {
         return fetch(`${this.baseUrl}/movies`, {

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { useLocation } from 'react-router';
 
 // Компоненты
 import Main from '../Main/Main';
@@ -21,7 +19,6 @@ import mainApi from '../../utils/MainApi';
 
 function App() {
   const history = useHistory();
-  const location = useLocation();
 
   //Переменные состояния
   const [currentUser, setCurrentUser] = React.useState({});
@@ -93,34 +90,7 @@ function tokenCheck() {
     }
   }
 
-  /*  React.useEffect(() => {
-    const locationPath = location.pathname;
-    const token = localStorage.getItem('token');
-    console.log(token);
-
-    if(token) {
-      mainApi.checkToken(token)
-        .then((res) => {
-            if(res) {
-              setUserData({ 
-                  email: res.email,
-                  id: res._id,
-              });
-                
-              setLoggedIn(true);
-              history.push(locationPath);
-            } else {
-              localStorage.removeItem("token");
-              history.push("/");
-              return
-            }
-        })
-        .catch((err) => {
-            console.log(`Attention! ${err}`);
-            history.push("/");
-        })
-    }
-  }, []);
+  /* 
 
   //Запрос информации пользователя
   React.useEffect(() => {
@@ -210,42 +180,29 @@ function tokenCheck() {
   }
 
   //Сохранение фильмов
-  const isMovieSaved = (movie) => savedMovies.some((item) => item.id === movie.id);
-
-  function setMovieSavedIcon(movie) {
-    return (movie.isSaved = savedMovies.some(
-        (savedMovie) => savedMovie.movieId === movie.id
-    ));
-  }
-
-  function saveMovies(movie) {
+  function handleSaveMovies(movie) {
     mainApi.saveMovie(movie)
       .then((savedMovie) => {
-        localStorage.setItem('savedMovie', JSON.stringify((savedMovie = [savedMovie, ...savedMovies])));
-        setSavedMovies(savedMovie);
+        const films = [...savedMovies, savedMovie];
+        localStorage.setItem('savedMovies', JSON.stringify(films));
+        setSavedMovies(prevState => ([...prevState, savedMovie]));
+      })
+      .catch((err) => {
+        console.log(`Attention! ${err}`);
+      })   
+  }
+
+  //Удаление фильмов
+  function handleDeleteMovie(movieId) {
+    mainApi.deleteMovie(movieId)
+      .then(() => {
+        const newSavedMovies = savedMovies.filter((deletedMovie) => {return deletedMovie._id !== movieId})
+        setSavedMovies(newSavedMovies);
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
       })
-  }
-
-  //Удаление фильмов
-  function deleteMovie(movie) {
-    const movieId = movie.movieId;
-    const selectedMovie = savedMovies.find((item) => item.movieId === movieId);
-
-    mainApi.deleteMovie({_id: selectedMovie._id})
-        .then((deletedMovie) => {
-            if (!deletedMovie) {
-                throw new Error('При удалении фильма произошла ошибка');
-            } else {
-                const newMoviesList = savedMovies.filter((c) => c.movieId !== movieId);
-                setSavedMovies(newMoviesList);
-            }
-        })
-        .catch((err) => {
-            console.log(`При удалении фильма: ${err}`)
-        });
   }
 
 
@@ -264,10 +221,9 @@ function tokenCheck() {
             onSearch={searchMovies}
             hideButton={isButtonHide}
             noResult={isNoSearchResult}
-            onSave={saveMovies}
-            isMovieSaved={isMovieSaved}
-            onDelete={deleteMovie}
-            setMovieSavedIcon={setMovieSavedIcon}
+            onSave={handleSaveMovies}
+            onDelete={handleDeleteMovie}
+            savedMovies={savedMovies}
             />
           </Route>
 
@@ -277,8 +233,8 @@ function tokenCheck() {
             onSearch={searchSavedMovies}
             cards={savedMovies}
             hideButton={isButtonHide}
-            oResult={isNoSearchResult}
-            onDelete={deleteMovie} />
+            noResult={isNoSearchResult}
+             />
           </Route>
 
           <Route path="/profile">

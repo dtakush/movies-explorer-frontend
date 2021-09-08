@@ -20,6 +20,7 @@ function SavedMovies(props) {
             hideButton={props.hideButton}
             noResult={props.noResult}
             onDelete={props.onDelete}
+            isSavedMovies={props.isSavedMovies}
             />
             <Footer />
         </>    

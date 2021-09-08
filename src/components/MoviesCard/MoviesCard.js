@@ -14,26 +14,43 @@ function MoviesCard(props) {
     }
 
     //Сохранение фильма
-    const isButtonActive = props.setMovieSavedIcon(props.movie);
+    const [isSaved, setIsSaved] = React.useState(false);
 
-    function saveMovie() {
-        props.onSave({
-            country: props.movie.country,
-            director: props.movie.director,
-            duration: props.movie.duration,
-            year: props.movie.year,
-            description: props.movie.description,
-            image: mainBaseUrl + props.movie.image,
-            trailer: props.movie.trailer,
-            nameRU: props.movie.nameRU,
-            nameEN: props.movie.nameEN,
-            thumbnail: mainBaseUrl + props.movie.thumbnail,
-            movieId: props.movie.movieId,
-        })
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
+
+    const movie = {
+        country: props.movie.country || 'No information',
+        director: props.movie.director || 'No information',
+        duration: props.movie.duration || 0,
+        year: props.movie.year || 'No information',
+        description: props.movie.description || 'No information',
+        image: mainBaseUrl + props.movie.image,
+        trailer: props.movie.trailer,
+        nameRU: props.movie.nameRU || 'No information',
+        nameEN: props.movie.nameEN || 'No information',
+        thumbnail: mainBaseUrl + props.movie.thumbnail,
+        movieId: props.movie.movieId,
     }
 
-    function deleteMovie() {
-        props.onDelete(props.movie)
+    //сохранить фильм
+    function handleLike() {
+        props.onMovieSave(movie);
+        console.log(currentMovie);
+        setIsSaved(true);
+    }
+
+    //удалить из сохраненного
+    function handleRemoveLike() {
+        setIsSaved(false);
+        console.log(currentMovie);
+        props.onDeleteMovie(currentMovie._id);
+    }
+
+    //удалить сохраненный
+    function handleDeleteMovie() {
+        props.onDelete(props.movie._id);
+        setIsSaved(false);
     }
 
     return (
@@ -44,16 +61,16 @@ function MoviesCard(props) {
                     <p className="card__duraton">{durationToString(props.duration)}</p>
                 </div>
 
-                {location.pathname === '/movies' && !isButtonActive && (
-                    <button className='card__save-button' onClick={saveMovie}>
+                {location.pathname === '/movies' && !isSaved && (
+                    <button className='card__save-button' onClick={handleLike}>
                         <div className='card__save-icon'></div>
                     </button>)}
-                {location.pathname === '/movies' && isButtonActive && (
-                    <button className='card__save-button card__save-button_active' onClick={deleteMovie}>
+                {location.pathname === '/movies' && isSaved && (
+                    <button className='card__save-button card__save-button_active' onClick={handleRemoveLike}>
                         <div className='card__save-icon card__save-icon_active'></div>
                     </button>)}
                 {location.pathname === '/saved-movies' && (
-                    <button className='card__save-button' onClick={deleteMovie}>
+                    <button className='card__save-button' onClick={handleDeleteMovie}>
                         <div className='card__save-icon_saved'></div>
                     </button>)}
 
