@@ -5,6 +5,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Preloader from '../Preloader/Preloader';
 
 
 function SavedMovies(props) {
@@ -14,6 +15,8 @@ function SavedMovies(props) {
             <SearchForm
             onSearch={props.onSearch}
             />
+
+            {props.isLoading && <Preloader/>}
 
             <MoviesCardList
             cards={props.cards}

@@ -118,7 +118,7 @@ class MainApi {
         })
         .then((res) => {
             if(res.token) {
-                localStorage.setItem('jwt', res.token);
+                localStorage.setItem('token', res.token);
                 return res;
             }
         })  

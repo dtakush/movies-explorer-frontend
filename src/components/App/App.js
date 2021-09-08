@@ -30,9 +30,18 @@ function App() {
   const [sortedMovies, setSortedMovies] = React.useState([]);
   const [isButtonHide, setIsButtonHide] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [savedMovies, setSavedMovies] = React.useState([]);
   const isMoviesSaved = true;
+
+  //Прелоадер
+  function showPreloader() {
+    setIsLoading(true);
+    setTimeout(async () => {
+        setIsLoading(false);
+    }, 1000);
+}
 
   //Регистрация пользователя
   function handleRegister(name, email, password) {
@@ -137,7 +146,7 @@ function tokenCheck() {
 
   //Поиск фильмов
   function searchMovies(word) {
-    //showPreloader();
+    showPreloader();
     const keyword = word.toLowerCase();
     const result = [];
     movies.forEach((item) => {
@@ -160,7 +169,7 @@ function tokenCheck() {
 
   //Поиск сохраненных фильмов
   function searchSavedMovies(word) {
-    //showPreloader();
+    showPreloader();
     const keyword = word.toLowerCase();
     const result = [];
     savedMovies.forEach((item) => {
@@ -182,16 +191,15 @@ function tokenCheck() {
   }
 
   //Сохранение фильмов
-  function handleSaveMovie(movie) {
-    console.log(movie);
-    mainApi.saveMovie(movie)
-      .then((res) => {
-        console.log(res);
+  function handleSaveMovie(movieData) {
+    mainApi
+      .saveMovie(movieData)
+      .then((movie) => {
         setSavedMovies([movie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
-      })   
+      });
   }
 
   //Удаление фильмов
@@ -199,9 +207,9 @@ function tokenCheck() {
     mainApi.deleteMovie(movie.id)
       .then(() => {
         const SavedMoviesList = savedMovies.filter((m) => m._id !== movie._id);
-        const SavedFilteredMoviesList = savedMovies.filter(
-          (m) => m._id !== movie._id
-        );
+        //const SavedFilteredMoviesList = savedMovies.filter(
+          //(m) => m._id !== movie._id
+        //);
         setSavedMovies(SavedMoviesList);
         //setSavedFilteredMovies(SavedFilteredMoviesList);
       })
@@ -223,6 +231,7 @@ function tokenCheck() {
             <Movies
             loggedIn={loggedIn}
             cards={sortedMovies}
+            isLoading={isLoading}
             onSearch={searchMovies}
             hideButton={isButtonHide}
             noResult={isNoSearchResult}
@@ -236,6 +245,7 @@ function tokenCheck() {
           <Route path="/saved-movies">
             <SavedMovies
             loggedIn={loggedIn}
+            isLoading={isLoading}
             onSearch={searchSavedMovies}
             cards={savedMovies}
             hideButton={isButtonHide}
