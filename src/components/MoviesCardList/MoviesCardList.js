@@ -60,9 +60,9 @@ function MoviesCardList(props) {
                     duration={item.duration}
                     trailerLink={item.trailerLink}
                     image={item.image.url}
-                    onSave={props.onSave}
-                    onDelete={props.onDelete}
+                    onSaveClick={props.onSaveClick}
                     savedMovies={props.savedMovies}
+                    isSavedMovie={props.isSavedMovie}
                     />
                     )
                 })}

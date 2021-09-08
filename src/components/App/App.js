@@ -30,6 +30,7 @@ function App() {
   const [sortedMovies, setSortedMovies] = React.useState([]);
   const [isButtonHide, setIsButtonHide] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
+
   const [savedMovies, setSavedMovies] = React.useState([]);
 
   //Регистрация пользователя
@@ -180,28 +181,39 @@ function tokenCheck() {
   }
 
   //Сохранение фильмов
-  function handleSaveMovies(movie) {
+  function onSaveClick(movie, isMarked) {
+    if (isMarked) {
+      handleSaveMovie(movie);
+    } else {
+      handleDeleteMovie(movie);
+    }
+  }
+
+  function handleSaveMovie(movie) {
     console.log(movie);
     mainApi.saveMovie(movie)
-      .then((savedMovie) => {
-        console.log(savedMovie);
-        const movies = [...savedMovies, savedMovie];
-        localStorage.setItem('savedMovies', JSON.stringify(movies));
-        console.log(localStorage);
-        setSavedMovies(prevState => ([...prevState, savedMovie]));
+      .then((res) => {
+        console.log(res);
+        setSavedMovies([...savedMovies, { ...res, id: res.movieId }]);
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
       })   
   }
 
+  function isSavedMovie(movie) {
+    console.log(movie);
+    console.log(savedMovies);
+    return savedMovies.some((item) => item.id === movie.id);
+  }
+
   //Удаление фильмов
-  function handleDeleteMovie(movieId) {
-    mainApi.deleteMovie(movieId)
+  function handleDeleteMovie(movie) {
+    mainApi.deleteMovie(movie.movieId)
       .then(() => {
-        const newSavedMovies = savedMovies.filter((deletedMovie) => {return deletedMovie._id !== movieId})
-        setSavedMovies(newSavedMovies);
-        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+        setSavedMovies(savedMovies.filter(
+          (item) => item._id !== movie.movieId
+        ));
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -224,9 +236,9 @@ function tokenCheck() {
             onSearch={searchMovies}
             hideButton={isButtonHide}
             noResult={isNoSearchResult}
-            onSave={handleSaveMovies}
-            onDelete={handleDeleteMovie}
+            onSaveClick={onSaveClick}
             savedMovies={savedMovies}
+            isSavedMovie={isSavedMovie}
             />
           </Route>
 

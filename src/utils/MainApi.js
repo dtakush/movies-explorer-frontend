@@ -38,23 +38,28 @@ class MainApi {
 
     //сохранение фильма
     saveMovie(movie) {
-        return fetch(`${this.baseUrl}/movies`, {
-            method: 'POST',
-            headers: this.headers,
+        const token = localStorage.getItem("token");
+        return fetch(`${this._baseUrl}/movies`, {
+            method: "POST",
+            headers: {
+                ...this._headers,
+                Authorization: `Bearer ${token}`,
+            },
             body: JSON.stringify({
                 country: movie.country,
-                description: movie.description,
                 director: movie.director,
                 duration: movie.duration,
-                movieId: movie.movieId,
-                image: movie.image,
-                nameEN: movie.nameEN,
-                nameRU: movie.nameRU,
-                trailerLink: movie.trailerLink,
                 year: movie.year,
-            })
-          })
-          .then(this._checkResponse)
+                description: movie.description,
+                image: movie.image,
+                trailer: movie.trailer,
+                thumbnail: movie.image,
+                movieId: movie.id,
+                nameRU: movie.nameRU,
+                nameEN: movie.nameEN,
+            }),
+        })
+        .then(this._checkResponse)
     }
 
     //удаление фильма
@@ -174,7 +179,7 @@ const mainApi = new MainApi({
     baseUrl: mainBaseUrl,
     headers: {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
     }
 });

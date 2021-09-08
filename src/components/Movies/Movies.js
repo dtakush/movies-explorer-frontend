@@ -19,9 +19,9 @@ function Movies(props) {
             cards={props.cards}
             hideButton={props.hideButton}
             noResult={props.noResult}
-            onSave={props.onSave}
-            onDelete={props.onDelete}
+            onSaveClick={props.onSaveClick}
             savedMovies={props.savedMovies}
+            isSavedMovie={props.isSavedMovie}
             />
             <Footer />
         </>    

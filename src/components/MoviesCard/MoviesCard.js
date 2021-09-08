@@ -14,12 +14,24 @@ function MoviesCard(props) {
     //Сохранение фильма
     const [isSaved, setIsSaved] = React.useState(false);
 
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    //const isSaved = props.isSavedMovie(props.movie);
+
+    //const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
     console.log(props.movie);
     //const currentMovie = savedMovies.find((movie) => movie.nameRU === props.movie.nameRU);
 
     //сохранить фильм
-    function handleSave() {
+    function handleSaveClick(evt) {
+        evt.preventDefault();
+        props.onSaveClick(props.movie, !isSaved);
+        setIsSaved(!isSaved);
+      }
+    
+      function handleDeleteClick() {
+        props.onSaveClick(props.movie, false);
+      }
+
+    /* function handleSave() {
         props.onSave({
             country: props.movie.country,
             description: props.movie.description,
@@ -29,7 +41,7 @@ function MoviesCard(props) {
             image: `https://api.nomoreparties.co${props.movie.image.url}`,
             nameEN: props.movie.nameEN,
             nameRU: props.movie.nameRU,
-            trailerLink: `https://api.nomoreparties.co${props.movie.trailerLink}`,
+            trailerLink: props.movie.trailerLink,
             year: props.movie.year,
         });
         //console.log(movie);
@@ -45,9 +57,8 @@ function MoviesCard(props) {
 
     //удалить сохраненный
     function handleDeleteMovie() {
-        props.onDelete(props.movie._id);
-        setIsSaved(false);
-    }
+        props.onSaveClick(movie, false);
+    } */
 
     return (
         <div className="card">
@@ -58,15 +69,15 @@ function MoviesCard(props) {
                 </div>
 
                 {location.pathname === '/movies' && !isSaved && (
-                    <button className='card__save-button' onClick={handleSave}>
+                    <button className='card__save-button' onClick={handleSaveClick}>
                         <div className='card__save-icon'></div>
                     </button>)}
                 {location.pathname === '/movies' && isSaved && (
-                    <button className='card__save-button card__save-button_active' onClick={handleRemoveSave}>
+                    <button className='card__save-button card__save-button_active' onClick={handleDeleteClick}>
                         <div className='card__save-icon card__save-icon_active'></div>
                     </button>)}
                 {location.pathname === '/saved-movies' && (
-                    <button className='card__save-button' onClick={handleDeleteMovie}>
+                    <button className='card__save-button' onClick={handleDeleteClick}>
                         <div className='card__save-icon_saved'></div>
                     </button>)}
 
