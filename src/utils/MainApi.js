@@ -38,9 +38,8 @@ class MainApi {
 
     //сохранение фильма
     saveMovie(movie) {
-        const token = localStorage.getItem("token");
-        return fetch(`${this._baseUrl}/movies`, {
-            method: "POST",
+        return fetch(`${this.baseUrl}/movies`, {
+            method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
                 country: movie.country,
