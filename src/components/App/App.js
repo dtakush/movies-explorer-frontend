@@ -23,7 +23,6 @@ function App() {
   //Переменные состояния
   const [currentUser, setCurrentUser] = React.useState({});
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userData, setUserData] = React.useState({});
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -81,10 +80,6 @@ function tokenCheck() {
       mainApi.checkToken(token)
         .then((res) => {
             if(res) {
-              setUserData({ 
-                  email: res.email,
-                  id: res._id,
-              });
                 
               setLoggedIn(true);
               history.push("/movies");
@@ -101,7 +96,17 @@ function tokenCheck() {
     }
   }
 
-  /* 
+  //Обновление данных профиля
+  function handleUpdateUserInfo(userInfo) {
+    mainApi.setUserInfo(userInfo)
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
 
   //Запрос информации пользователя
   React.useEffect(() => {
@@ -115,7 +120,7 @@ function tokenCheck() {
         });
     }
     
-  }, [loggedIn]); */
+  }, [loggedIn]);
 
   //Выход из аккаунта
   /* function handleSignOut() {
@@ -257,6 +262,7 @@ function tokenCheck() {
             <Profile
             loggedIn={loggedIn}
             currentUser={currentUser}
+            onUpdateUser={handleUpdateUserInfo}
              />
           </Route>
 

@@ -1,5 +1,4 @@
 import { mainBaseUrl } from "./constants";
-import moviesApi from "./MoviesApi";
 
 class MainApi {
     constructor({baseUrl, headers}) {
@@ -23,7 +22,7 @@ class MainApi {
           headers: this.headers,
           body: JSON.stringify({
             name: data.name,
-            about: data.about
+            email: data.email
           })
         })
         .then(this._checkResponse)
