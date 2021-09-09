@@ -7,6 +7,7 @@ import Entrance from '../Entrance/Entrance';
 function Register(props) {
     const formValidation = useValidation();
     const { name, email, password } = formValidation.formValues;
+    console.log(formValidation.formValues);
 
     const handleSubmit = (e) => {
         e.preventDefault();
