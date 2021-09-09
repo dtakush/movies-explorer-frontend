@@ -1,5 +1,5 @@
 const moviesBaseUrl = 'https://api.nomoreparties.co/beatfilm-movies';
-const mainBaseUrl = 'https://api.dtakush.diploma.nomoredomains.monster';
+const mainBaseUrl = 'https://dtakush.diploma.nomoredomains.monster/api';
 
 module.exports = {
     moviesBaseUrl,
