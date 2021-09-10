@@ -10,7 +10,23 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import NotFound from '../NotFound/NotFound';
 
+//API
+import moviesApi from '../../utils/MoviesApi';
+
 function App() {
+
+  //Карточки
+  const [movies, setMovies] = React.useState([]);
+
+  React.useEffect(() => {
+    moviesApi.getInitialCards()
+      .then((movies) => {   
+        setMovies(movies);
+      })
+      .catch((err) => {
+        console.log(`Attention! ${err}`);
+      });
+  }, []);
 
   return (
     <div className="page">
@@ -20,7 +36,8 @@ function App() {
         </Route>
 
         <Route path="/movies">
-          <Movies />
+          <Movies
+          cards={movies} />
         </Route>
 
         <Route path="/saved-movies">

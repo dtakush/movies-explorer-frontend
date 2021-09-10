@@ -2,7 +2,6 @@ import React from 'react';
 
 // Компоненты
 import Header from '../Header/Header';
-import movieCards from '../../utils/movieCards';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
@@ -14,7 +13,7 @@ function Movies(props) {
             <Header />
             <SearchForm />
             <MoviesCardList
-            cards={movieCards}
+            cards={props.cards}
             />
             <Footer />
         </>    

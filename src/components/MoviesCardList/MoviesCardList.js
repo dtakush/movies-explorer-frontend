@@ -27,11 +27,11 @@ function MoviesCardList(props) {
 
     React.useEffect(() => {
         const windowInnerWidth = window.innerWidth;
-        const totalNumberOfMovies = Math.min(props.cards.cards.length, getNumberOfMovies(windowInnerWidth).first);
-        setRenderedMovies(props.cards.cards.slice(0, totalNumberOfMovies));
+        const totalNumberOfMovies = Math.min(props.cards.length, getNumberOfMovies(windowInnerWidth).first);
+        setRenderedMovies(props.cards.slice(0, totalNumberOfMovies));
         /* console.log(windowInnerWidth); */
         /* console.log(renderedMovies); */
-    }, [props.cards.cards])
+    }, [props.cards])
 
     return (
         <section className="movies-cards">
@@ -39,10 +39,8 @@ function MoviesCardList(props) {
                 {renderedMovies.map((item) => {
                 return (
                     <MoviesCard
+                    card={item}
                     key={item.key}
-                    title={item.title}
-                    duration={item.duration}
-                    link={item.link}
                     />
                     )
                 })}
