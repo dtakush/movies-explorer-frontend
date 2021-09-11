@@ -6,66 +6,8 @@ class MainApi {
         this.headers = headers;
     }
 
-    _fetch(path, headers) {
-        return fetch(`${this.baseUrl}${path}`, headers)
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Произошла ошибка: ${res.status}`);
-            })
-    }
-
-    register(name, email, password) {
-        return this._fetch('signup', {
-            method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({name, email, password}),
-            mode: 'no-cors'
-        })
-    };
-
-    login(email, password) {
-        return this._fetch('signin', {
-            method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({email, password}),
-            mode: 'no-cors'
-        })
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('jwt', data.token);
-                    return data;
-                }
-            })
-            .catch(err => console.log(err))
-    };
-
-
-    checkToken(jwt) {
-        return this._fetch('users/me', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwt}`
-            },
-            mode: 'no-cors'
-        })
-            .catch((err) => console.log(err))
-    }
-}
-
-const mainApi = new MainApi ({
-    baseUrl: 'https://api.dtakush.diploma.nomoredomains.monster/',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-});
     
-export default mainApi;
-    /* //Регистрация
+    //Регистрация
     register(name, email, password) {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
@@ -172,4 +114,4 @@ const mainApi = new MainApi({
 }); 
     
     
-export default mainApi;*/
+export default mainApi;
