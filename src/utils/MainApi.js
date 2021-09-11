@@ -19,7 +19,7 @@ class MainApi {
                 email: email,
                 password: password,
             }),
-            mode: 'no-cors',
+            //mode: 'no-cors',
         })
         .then((res) => {
             console.log(res);
@@ -106,7 +106,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: 'https://dtakush.diploma.nomoredomains.monster/api',
+    baseUrl: 'https://api.dtakush.diploma.nomoredomains.monster',
     headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
