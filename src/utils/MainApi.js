@@ -7,7 +7,7 @@ class MainApi {
     }
 
     _fetch(path, headers) {
-        return fetch(`${this.url}${path}`, headers)
+        return fetch(`${this.baseUrl}${path}`, headers)
             .then((res) => {
                 if (res.ok) {
                     return res.json();
