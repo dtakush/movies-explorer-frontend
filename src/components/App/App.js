@@ -44,7 +44,7 @@ function App() {
     mainApi.authorize(email, password)
     .then((res) => {
         if(res) {
-          localStorage.setItem('token', res.token);
+          localStorage.setItem('jwt', res.token);
           tokenCheck();
           setLoggedIn(true);
           history.push('/movies');
@@ -57,17 +57,17 @@ function App() {
 
   //Проверка токена
   function tokenCheck() {
-    const token = localStorage.getItem('token');
+    const jwt = localStorage.getItem('jwt');
 
-    if(token) {
-      mainApi.checkToken(token)
+    if(jwt) {
+      mainApi.checkToken(jwt)
         .then((res) => {
             if(res) {
               setLoggedIn(true);
               history.push("/movies");
             } else {
               setLoggedIn(false);
-              localStorage.removeItem("token");
+              localStorage.removeItem('jwt');
               history.push("/");
               return
             }
