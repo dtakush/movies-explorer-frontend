@@ -19,6 +19,7 @@ class MainApi {
                 email: email,
                 password: password,
             }),
+            mode: 'no-cors',
         })
         .then((res) => {
             console.log(res);
