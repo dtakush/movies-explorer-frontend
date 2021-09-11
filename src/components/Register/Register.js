@@ -4,14 +4,14 @@ import useValidation from '../../utils/formValidation';
 // Компоненты
 import Entrance from '../Entrance/Entrance';
 
-function Register(props) {
+function Register({ handleRegister }) {
     const formValidation = useValidation();
     const { name, email, password } = formValidation.formValues;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, email, password)
-        props.onRegister(name, email, password);
+        console.log(name, email, password);
+        handleRegister(name, email, password);
     };
 
     return (

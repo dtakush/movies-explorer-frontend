@@ -26,6 +26,7 @@ function App() {
 
   //Регистрация пользователя
   function handleRegister(name, email, password) {
+    console.log(name, email, password);
     mainApi.register(name, email, password)
     .then((res) => {
       console.log(res);
@@ -110,12 +111,12 @@ function App() {
 
         <Route path="/signin">
           <Login
-          onLogin={handleLogin} />
+          onSubmit={handleLogin} />
         </Route>
         
         <Route path="/signup">
           <Register
-          onRegister={handleRegister} />
+          handleRegister={handleRegister} />
         </Route>
 
         <Route path="*">

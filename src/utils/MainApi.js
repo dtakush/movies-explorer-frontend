@@ -7,7 +7,7 @@ class MainApi {
     }
 
     //Регистрация
-    register (name, email, password) {
+    register(name, email, password) {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
             headers: {
@@ -106,11 +106,11 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: mainBaseUrl,
+    baseUrl: "https://api.dtakush.diploma.nomoredomains.monster",
     headers: {
-    'Accept': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    'Content-Type': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
     }
 });
     
