@@ -25,7 +25,7 @@ function App() {
   const [movies, setMovies] = React.useState([]);
 
   //Регистрация пользователя
-  function handleRegister(name, email, password) {
+  function handleRegister({name, email, password}) {
     console.log(name, email, password);
     mainApi.register(name, email, password)
       .then((res) => {
@@ -40,7 +40,7 @@ function App() {
   }
 
   //Авторизация пользователя
-  function handleLogin(email, password) {
+  function handleLogin({email, password}) {
     mainApi.authorize(email, password)
     .then((res) => {
         if(res) {
@@ -111,12 +111,12 @@ function App() {
 
         <Route path="/signin">
           <Login
-          onSubmit={handleLogin} />
+          onLogin={handleLogin} />
         </Route>
         
         <Route path="/signup">
           <Register
-          handleRegister={handleRegister} />
+          onRegister={handleRegister} />
         </Route>
 
         <Route path="*">
