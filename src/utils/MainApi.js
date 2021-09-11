@@ -7,47 +7,7 @@ class MainApi {
     }
 
     //Регистрация
-    _fetch(path, headers) {
-        return fetch(`${this.baseUrl}${path}`, headers)
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(`Произошла ошибка: ${res.status}`);
-            })
-    }
-
     register(name, email, password) {
-        return this._fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({name, email, password}),
-            mode: "no-cors",
-        })
-    };
-
-    authorize(email, password) {
-        return this._fetch('/signin', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password}),
-            mode: "no-cors",
-        })
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    return data;
-                }
-            })
-            .catch(err => console.log(err))
-    };
-    /* register(name, email, password) {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
             headers: {
@@ -73,6 +33,7 @@ class MainApi {
             }
         })
         .then((res) => {
+            console.log(res);
             return res;
         })
         .catch((err) => console.log(err));
@@ -107,7 +68,7 @@ class MainApi {
             }
         })  
         .catch((err) => console.log(err));
-    }; */
+    };
 
 
 //Проверка токена
