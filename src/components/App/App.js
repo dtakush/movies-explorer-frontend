@@ -28,20 +28,21 @@ function App() {
   function handleRegister({name, email, password}) {
     console.log(name, email, password);
     mainApi.register(name, email, password)
-      .then((res) => {
-        console.log(res);
-          if(res) {
-            history.push("/signin");
-          }
+      .then((data) => {
+        if (data) {
+          //setResError(false);
+          //setMessage('');
+          history.push('/signin');
+        }
       })
       .catch((err) => {
-          console.log(`Attention! ${err}`);
+        console.log(`При регистрации: ${err}`);
       })
   }
 
   //Авторизация пользователя
   function handleLogin({email, password}) {
-    mainApi.authorize(email, password)
+    mainApi.login(email, password)
     .then((res) => {
         if(res) {
           localStorage.setItem('jwt', res.token);
