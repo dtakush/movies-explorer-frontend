@@ -8,10 +8,11 @@ class MainApi {
 
     
     //Регистрация
-    register(name, email, password) {
+    register({name, email, password}) {
         return fetch(`${this.baseUrl}/signup`, {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
