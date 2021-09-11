@@ -20,7 +20,8 @@ class MainApi {
         return this._fetch('signup', {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify({name, email, password})
+            body: JSON.stringify({name, email, password}),
+            mode: 'no-cors'
         })
     };
 
@@ -28,7 +29,8 @@ class MainApi {
         return this._fetch('signin', {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({email, password}),
+            mode: 'no-cors'
         })
             .then((data) => {
                 if (data.token) {
@@ -47,7 +49,8 @@ class MainApi {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${jwt}`
-            }
+            },
+            mode: 'no-cors'
         })
             .catch((err) => console.log(err))
     }
