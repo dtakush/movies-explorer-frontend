@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 
 // Компоненты
 import Main from '../Main/Main';
@@ -12,11 +12,71 @@ import NotFound from '../NotFound/NotFound';
 
 //API
 import moviesApi from '../../utils/MoviesApi';
+import mainApi from '../../utils/MainApi';
+
 
 function App() {
+  const history = useHistory();
+
+  //Вход
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
+
+  //Регистрация пользователя
+  function handleRegister(name, email, password) {
+    mainApi.register(name, email, password)
+    .then((res) => {
+      console.log(res);
+        if(res) {
+          history.push("/signin");
+        }
+    })
+    .catch((err) => {
+        console.log(`Attention! ${err}`);
+    })
+  }
+
+  //Авторизация пользователя
+  function handleLogin(email, password) {
+    mainApi.authorize(email, password)
+    .then((res) => {
+        if(res) {
+          localStorage.setItem('token', res.token);
+          tokenCheck();
+          setLoggedIn(true);
+          history.push('/movies');
+        }
+    })
+    .catch((err) => {
+        console.log(`Attention! ${err}`);
+    })
+  }
+
+  //Проверка токена
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+
+    if(token) {
+      mainApi.checkToken(token)
+        .then((res) => {
+            if(res) {
+              setLoggedIn(true);
+              history.push("/movies");
+            } else {
+              setLoggedIn(false);
+              localStorage.removeItem("token");
+              history.push("/");
+              return
+            }
+        })
+        .catch((err) => {
+            console.log(`Attention! ${err}`);
+            history.push("/signin");
+        })
+    }
+  }
 
   React.useEffect(() => {
     moviesApi.getInitialCards()
@@ -49,11 +109,13 @@ function App() {
         </Route>
 
         <Route path="/signin">
-          <Login />
+          <Login
+          onLogin={handleLogin} />
         </Route>
         
         <Route path="/signup">
-          <Register />
+          <Register
+          onRegister={handleRegister} />
         </Route>
 
         <Route path="*">
