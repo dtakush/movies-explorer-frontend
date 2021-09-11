@@ -18,7 +18,6 @@ class MainApi {
                 email: email,
                 password: password,
             }),
-            mode: "no-cors", // same-origin, cors
         })
         .then((res) => {
             console.log(res);
@@ -48,7 +47,6 @@ class MainApi {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({email, password}),
-            mode: "no-cors", // same-origin, cors
             })
         .then((res) => {
             if(res.status === 200) {
@@ -79,7 +77,6 @@ class MainApi {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            mode: "no-cors", // same-origin, cors
         })
         .then((res) => {
             if(res.status === 200) {
