@@ -54,7 +54,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi ({
-    baseUrl: 'https://dtakush.diploma.nomoredomains.monster/api/',
+    baseUrl: 'https://api.dtakush.diploma.nomoredomains.monster/',
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
