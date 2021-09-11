@@ -28,15 +28,15 @@ function App() {
   function handleRegister(name, email, password) {
     console.log(name, email, password);
     mainApi.register(name, email, password)
-    .then((res) => {
-      console.log(res);
-        if(res) {
-          history.push("/signin");
-        }
-    })
-    .catch((err) => {
-        console.log(`Attention! ${err}`);
-    })
+      .then((res) => {
+        console.log(res);
+          if(res) {
+            history.push("/signin");
+          }
+      })
+      .catch((err) => {
+          console.log(`Attention! ${err}`);
+      })
   }
 
   //Авторизация пользователя
