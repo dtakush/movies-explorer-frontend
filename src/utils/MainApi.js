@@ -107,7 +107,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: "https://dtakush.diploma.nomoredomains.monster/api",
+    baseUrl: mainBaseUrl,
     headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
