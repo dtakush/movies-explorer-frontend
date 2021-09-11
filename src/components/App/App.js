@@ -26,7 +26,7 @@ function App() {
 
   //Регистрация пользователя
   function handleRegister({name, email, password}) {
-    console.log(name, email, password);
+    console.log({name, email, password});
     mainApi.register(name, email, password)
       .then((data) => {
         if (data) {
