@@ -1,11 +1,12 @@
-import { useState, useCallback } from 'react';
+import { React, useState, useCallback } from 'react';
 
-function useValidation(userData) {
+function useValidation() {
+
     const [formValues, setFormValues] = useState({
-        inputName: '',
-        inputEmail: '',
-        inputPassword: ''
-    })
+        name: '',
+        email: '',
+        password: ''
+    });
     const [errors, setErrors] = useState({});
     const [isInputValid, setIsInputValid] = useState(false);
 
@@ -16,12 +17,22 @@ function useValidation(userData) {
         setIsInputValid(e.target.closest("form").checkValidity());
     }, [setFormValues]);
 
-    // const { inputName, inputEmail, inputPassword } = formValues;
+    const resetForm = useCallback(
+        (newValues = {}, newErrors = {}, newIsValid = false) => {
+            setFormValues(newValues);
+            setErrors(newErrors);
+            setIsInputValid(newIsValid);
+        },
+        [setFormValues, setErrors, setIsInputValid]
+    );
 
     return {
         formValues,
+        setFormValues,
         errors,
         isInputValid,
+        setIsInputValid,
+        resetForm,
         handleInputChange,
     };
 }

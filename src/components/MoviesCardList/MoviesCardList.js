@@ -11,46 +11,53 @@ function MoviesCardList(props) {
     const midWindowSize = 810;
     const minWindowSize = 319;
 
-    const [renderedMovies, setRenderedMovies] = useState([]);
+    const [numberOfMovies, setNumberOfMovies] = React.useState(12);
+    const [loadMore, setLoadMore] = React.useState(3);
 
-    const getNumberOfMovies = (windowSize) => {
+    React.useEffect((windowSize) => {
         if(windowSize > maxWindowSize) {
-            return {first: 12};
+            setNumberOfMovies(12);
+            setLoadMore(3);
         }
         if (windowSize < maxWindowSize && windowSize > midWindowSize) {
-            return {first: 8}
+            setNumberOfMovies(8);
+            setLoadMore(2);
         }
         if (windowSize < midWindowSize && windowSize > minWindowSize) {
-            return {first: 5}
+            setNumberOfMovies(5);
+            setLoadMore(5);
         }
+    }, []);
+
+    function clickLoadMore() {
+        return setNumberOfMovies(numberOfMovies + loadMore);
     }
-
-    React.useEffect(() => {
-        const windowInnerWidth = window.innerWidth;
-        const totalNumberOfMovies = Math.min(props.cards.length, getNumberOfMovies(windowInnerWidth).first);
-        setRenderedMovies(props.cards.slice(0, totalNumberOfMovies));
-        /* console.log(windowInnerWidth); */
-        /* console.log(renderedMovies); */
-    }, [props.cards])
-
+ 
     return (
         <section className="movies-cards">
             <div className="movies-cards__container">
-                {renderedMovies.map((item) => {
+                {props.cards.slice(0, numberOfMovies).map((item) => {
                 return (
                     <MoviesCard
-                    card={item}
+                    movie={item}
                     key={item.id}
+                    onSave={props.onSave}
+                    onDelete={props.onDelete}
+                    isSaved={props.isSaved}
                     />
                     )
                 })}
             </div>
             <button
             type="button"
+            onClick={clickLoadMore}
             className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
-                            : "movies-cards__more-button_saved"}`
-                        }>
+                            : "movies-cards__more-button_saved"}
+                        ${props.cards.length > numberOfMovies.length
+                            ? ''
+                            : 'movies-cards__more-button_hide'}`}
+            >
                 Ещё
             </button>
         </section>
