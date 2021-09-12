@@ -14,6 +14,8 @@ function Movies(props) {
             <Header />
             <SearchForm
             onSearch={props.onSearch}
+            onCheck={props.onCheck}
+            shortMovie={props.shortMovie}
             />
 
             {props.isLoading && <Preloader/>}

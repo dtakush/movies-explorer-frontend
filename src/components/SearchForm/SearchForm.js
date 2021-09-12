@@ -9,7 +9,7 @@ function SearchForm(props) {
     function handleSearch(e) {
         setKeyword(e.target.value);
     }
-    
+
     function handleSubmit(e) {
         e.preventDefault();
         props.onSearch(keyword);
@@ -34,7 +34,9 @@ function SearchForm(props) {
                         <div className="searchform__button_pic"></div>
                     </button>
                 </form>
-                <FilterCheckbox />
+                <FilterCheckbox
+                onCheck={props.onCheck}
+                shortMovie={props.shortMovie} />
             </div>
         </section>
         

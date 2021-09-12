@@ -33,7 +33,7 @@ function App() {
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
-
+  const [shortMovie, setShortMovie] = React.useState(false);
 
 
 /////////////////////////////////////
@@ -122,7 +122,7 @@ function App() {
     if(loggedIn) {
         mainApi.getUserInfo()
         .then((userInfo) => {
-            setCurrentUser(userInfo);
+          setCurrentUser(userInfo);
         })
         .catch((err) => {
             console.log(`Attention! ${err}`);
@@ -215,6 +215,20 @@ function App() {
     }, 1000);
   }
 
+  //изменение состояние чекбокса
+  function handleCheckBox() {
+    setShortMovie(!shortMovie);
+  }
+
+  //фильтрация по продолжительности
+  function filterShortMovies(sortedMovies) {
+      if (sortedMovies.length !== 0 || sortedMovies !== 'undefined') {
+          return sortedMovies.filter((movie) =>
+              shortMovie ? movie.duration <= 40 : true
+          )
+      }
+  }
+
   React.useEffect(() => {
     moviesApi.getInitialCards()
       .then((movies) => {   
@@ -238,14 +252,17 @@ function App() {
           <Route path="/movies">
             <Movies
             loggedIn={loggedIn}
-            cards={sortedMovies}
+            cards={filterShortMovies(sortedMovies)}
+            shortMovie={shortMovie}
             isLoading={isLoading}
             onSearch={searchMovies}
             hideButton={isButtonHide}
             noResult={isNoSearchResult}
             onSave={saveCard}
             onDelete={deleteCard}
-            isSaved={isSaved} />
+            isSaved={isSaved}
+            onCheck={handleCheckBox}
+             />
           </Route>
 
           <Route path="/saved-movies">

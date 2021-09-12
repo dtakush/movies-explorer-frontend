@@ -32,6 +32,8 @@ function MoviesCardList(props) {
     function clickLoadMore() {
         return setNumberOfMovies(numberOfMovies + loadMore);
     }
+
+    console.log(numberOfMovies);
  
     return (
         <section className="movies-cards">
@@ -49,18 +51,17 @@ function MoviesCardList(props) {
                     )
                 })}
             </div>
-            <button
-            type="button"
-            onClick={clickLoadMore}
-            className={`${location.pathname === '/movies'
+
+            {(props.cards.length >= numberOfMovies)
+                ? <button
+                    type="button"
+                    onClick={clickLoadMore} 
+                    className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
-                            : "movies-cards__more-button_saved"}
-                        ${props.cards.length > numberOfMovies.length
-                            ? ''
-                            : 'movies-cards__more-button_hide'}`}
-            >
-                Ещё
-            </button>
+                            : "movies-cards__more-button_saved"}`}> Еще </button>
+                : ''
+            }
+            
         </section>
     )
 }

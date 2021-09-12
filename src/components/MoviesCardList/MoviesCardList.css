@@ -40,6 +40,10 @@
     opacity: 0;
 }
 
+.movies-cards__more-button_hide {
+    display: none;
+}
+
 @media screen and (max-width: 1200px) {
     .movies-cards__container {
         grid-template-columns: repeat(2, 1fr);
