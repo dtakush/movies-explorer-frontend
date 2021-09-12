@@ -23,11 +23,11 @@ function MoviesCard(props) {
             duration: props.movie.duration,
             year: props.movie.year,
             description: props.movie.description,
-            image: `url(https://api.nomoreparties.co${props.movie.image.url})`,
+            image: `https://api.nomoreparties.co${props.movie.image.url}`,
             trailer: props.movie.trailerLink,
             nameRU: props.movie.nameRU,
             nameEN: props.movie.nameEN,
-            thumbnail: `url(https://api.nomoreparties.co${props.movie.image.formats.thumbnail.url})`,
+            thumbnail: `https://api.nomoreparties.co${props.movie.image.formats.thumbnail.url}`,
             id: props.movie.id,
         });
     }
@@ -61,7 +61,7 @@ function MoviesCard(props) {
             </div>
             <a
             className="card__trailer-link"
-            href={props.trailerLink}
+            href={props.trailer}
             target="_blank"
             rel="noreferrer">
                 <div
