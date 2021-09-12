@@ -12,7 +12,8 @@ import NotFound from '../NotFound/NotFound';
 
 //API
 import moviesApi from '../../utils/MoviesApi';
-import mainApi from '../../utils/MainApi';
+// import mainApi from '../../utils/MainApi';
+import * as auth from "../../utils/auth";
 
 
 function App() {
@@ -27,11 +28,10 @@ function App() {
   //Регистрация пользователя
   function handleRegister({name, email, password}) {
     console.log({name, email, password});
-    mainApi.register(name, email, password)
+    auth.register(name, email, password)
       .then((data) => {
+        console.log(data);
         if (data) {
-          //setResError(false);
-          //setMessage('');
           history.push('/signin');
         }
       })
@@ -42,14 +42,13 @@ function App() {
 
   //Авторизация пользователя
   function handleLogin({email, password}) {
-    mainApi.login(email, password)
+    auth.authorize(email, password)
     .then((res) => {
-        if(res) {
-          localStorage.setItem('jwt', res.token);
-          tokenCheck();
-          setLoggedIn(true);
-          history.push('/movies');
-        }
+      console.log(res);
+      if(res && res.token) {
+        tokenCheck();
+        history.push('/movies');
+      }
     })
     .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -61,14 +60,14 @@ function App() {
     const jwt = localStorage.getItem('jwt');
 
     if(jwt) {
-      mainApi.checkToken(jwt)
+      auth.checkToken(jwt)
         .then((res) => {
             if(res) {
               setLoggedIn(true);
               history.push("/movies");
             } else {
               setLoggedIn(false);
-              localStorage.removeItem('jwt');
+              // localStorage.removeItem('jwt');
               history.push("/");
               return
             }

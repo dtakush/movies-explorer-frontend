@@ -40,7 +40,7 @@ function MoviesCardList(props) {
                 return (
                     <MoviesCard
                     card={item}
-                    key={item.key}
+                    key={item.id}
                     />
                     )
                 })}
