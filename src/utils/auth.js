@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.dtakush.diploma.nomoredomains.monster';
+export const BASE_URL = 'https://auth.nomoreparties.co';
 
 //Регистрация
 export const register = (name, email, password) => {

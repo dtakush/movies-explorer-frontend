@@ -10,7 +10,6 @@ function Register(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, email, password);
         props.onRegister({name, email, password});
     };
 

@@ -33,19 +33,7 @@ class MainApi {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify({
-                country: data.country || 'Нет информации',
-                director: data.director || 'Нет информации',
-                duration: data.duration || 0,
-                year: data.year || 'Нет информации',
-                description: data.description || 'Нет информации',
-                image: data.image.url,
-                trailer: data.trailerLink || 'Нет информации',
-                nameRU: data.nameRU || 'Нет информации',
-                nameEN: data.nameEN || 'Нет информации',
-                thumbnail: data.image.url,
-                movieId: data.id || 'Нет информации',
-            }),
+            body: JSON.stringify(data),
         })
         .then(this._checkResponse)
     }

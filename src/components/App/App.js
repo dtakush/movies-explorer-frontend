@@ -138,6 +138,7 @@ function App() {
 
   //Сохранение фильма
   function saveCard(card) {
+    console.log(localStorage);
     console.log(card);
     mainApi.saveMovie(card)
       .then((movie) => {
