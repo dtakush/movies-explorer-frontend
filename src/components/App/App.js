@@ -59,6 +59,7 @@ function App() {
     .then((res) => {
       if(res && res.token) {
         tokenCheck();
+        localStorage.setItem('jwt', res.token);
         history.push('/movies');
       }
     })
