@@ -1,4 +1,4 @@
-import { moviesBaseUrl } from './constants';
+import { MOVIES_BASE_URL } from './constants';
 
 class MoviesApi {
     constructor({baseUrl, headers}) {
@@ -24,7 +24,7 @@ class MoviesApi {
 }
 
 const moviesApi = new MoviesApi({
-    baseUrl: moviesBaseUrl,
+    baseUrl: MOVIES_BASE_URL,
     headers: {
       'Accept': 'application/json',
       // 'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

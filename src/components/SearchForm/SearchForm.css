@@ -30,7 +30,7 @@
 }
 
 .searchform__input {
-    min-width: 50%;
+    width: 80%;
     height: 100%;
     border: 0;
     background-color: transparent;
@@ -40,6 +40,7 @@
     font-weight: 300;
     color: #000;
     margin: 0 0 0 22px;
+    padding: 10px 0;
 }
 
 .searchform__input::placeholder {
@@ -59,6 +60,10 @@
     justify-content: center;
     align-items: center;
     transition: .3s ease-in-out;
+}
+
+.searchform__button_disabled {
+    background-color: #ccc;
 }
 
 .searchform__button:hover {

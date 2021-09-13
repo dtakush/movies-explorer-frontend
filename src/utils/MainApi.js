@@ -1,4 +1,4 @@
-import { mainBaseUrl } from "./constants";
+import { MAIL_BASE_URL, MOVIE_INFO_URL } from "./constants";
 
 class MainApi {
     constructor({baseUrl, headers}) {
@@ -43,8 +43,8 @@ class MainApi {
                 country: movie.country || 'no country',
                 duration: movie.duration || 0,
                 year: movie.year || 'no year',
-                image: `https://api.nomoreparties.co${movie.image.url}`,
-                thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+                image: `${MOVIE_INFO_URL}${movie.image.url}`,
+                thumbnail: `${MOVIE_INFO_URL}${movie.image.formats.thumbnail.url}`,
             }),
         })
         .then(this._checkResponse);
@@ -78,7 +78,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: mainBaseUrl,
+    baseUrl: MAIL_BASE_URL,
     headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

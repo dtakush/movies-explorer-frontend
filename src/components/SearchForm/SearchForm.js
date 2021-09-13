@@ -6,8 +6,11 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm(props) {
 
     const [keyword, setKeyword] = React.useState('');
+    const [isSearchValid, setIsSearchValid] = React.useState(true);
+
     function handleSearch(e) {
         setKeyword(e.target.value);
+        setIsSearchValid(e.target.checkValidity());
     }
 
     function handleSubmit(e) {
@@ -30,7 +33,13 @@ function SearchForm(props) {
                     className="searchform__input"
                     placeholder="Фильм"
                     required />
-                    <button className="searchform__button" type='submit'>
+
+                    <button
+                    className={`searchform__button ${isSearchValid
+                        ? ''
+                        : 'searchform__button_disabled'}`}
+                    type='submit'
+                    >
                         <div className="searchform__button_pic"></div>
                     </button>
                 </form>

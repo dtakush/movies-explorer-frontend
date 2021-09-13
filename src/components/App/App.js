@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 //Контекст
 import { CurrentUserContext } from '../../context/CurrentUserContext';
@@ -58,9 +59,9 @@ function App() {
     .then((res) => {
       if(res && res.token) {
         localStorage.setItem('jwt', res.token);
-        tokenCheck();
         history.push('/movies');
         setLoggedIn(true);
+        tokenCheck();
       } else {
         setLoggedIn(false);
       }
@@ -261,42 +262,40 @@ function App() {
             <Main />
           </Route>
 
-          <Route path="/movies">
-            <Movies
-            loggedIn={loggedIn}
-            cards={filterShortMovies(sortedMovies)}
-            shortMovie={shortMovie}
-            isLoading={isLoading}
-            onSearch={searchMovies}
-            hideButton={isButtonHide}
-            onSave={saveCard}
-            onDelete={deleteCard}
-            savedMovies={savedMovies}
-            onCheck={handleCheckBox}
-            noResult={isNoSearchResult}
-             />
-          </Route>
-
-          <Route path="/saved-movies">
-            <SavedMovies
-            loggedIn={loggedIn}
-            cards={savedMovies}
-            shortMovie={shortMovie}
-            isLoading={isLoading}
-            hideButton={isButtonHide}
-            onSearch={searchSavedMovies}
-            onDelete={deleteCard}
-            onCheck={handleCheckBox}
-            noResult={isNoSearchResult}
-            />
-          </Route>
-
-          <Route path="/profile">
-            <Profile
-            loggedIn={loggedIn}
-            onUpdateUser={handleUpdateUserInfo}
-            onSignOut={handleSignOut} />
-          </Route>
+          <ProtectedRoute exact path="/movies"
+              component={Movies}
+              loggedIn={loggedIn}
+              cards={filterShortMovies(sortedMovies)}
+              shortMovie={shortMovie}
+              isLoading={isLoading}
+              onSearch={searchMovies}
+              hideButton={isButtonHide}
+              onSave={saveCard}
+              onDelete={deleteCard}
+              savedMovies={savedMovies}
+              onCheck={handleCheckBox}
+              noResult={isNoSearchResult}
+          />
+    
+          <ProtectedRoute exact path="/saved-movies"
+              component={SavedMovies}
+              loggedIn={loggedIn}
+              cards={filterShortMovies(savedMovies)}
+              shortMovie={shortMovie}
+              isLoading={isLoading}
+              hideButton={isButtonHide}
+              onSearch={searchSavedMovies}
+              onDelete={deleteCard}
+              onCheck={handleCheckBox}
+              noResult={isNoSearchResult}
+          />
+          
+          <ProtectedRoute exact path="/profile"
+              component={Profile}
+              loggedIn={loggedIn}
+              onUpdateUser={handleUpdateUserInfo}
+              onSignOut={handleSignOut}
+          />
 
           <Route path="/signin">
             <Login
