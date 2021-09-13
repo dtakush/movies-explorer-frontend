@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 function MoviesCard(props) {
     let location = useLocation();
 
-    const isSaved = props.isSaved(props.movie);
+    const isSaved = props.savedMovies.find(e => e.movieId === props.movie.id);
 
     //Изменение формата продолжительности
     function durationToString(dur) {

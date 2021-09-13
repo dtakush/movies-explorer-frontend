@@ -46,16 +46,17 @@ class MainApi {
                 image: `https://api.nomoreparties.co${movie.image.url}`,
                 thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
             }),
-        });
+        })
+        .then(this._checkResponse);
     }
 
     //удаление фильма
-    deleteMovie(id) {
-        return fetch(`${this.baseUrl}/movies/${id}`, {
+    deleteCard(movie) {
+        return fetch(`${this.baseUrl}/cards/${movie._id}`, {
           method: 'DELETE',
           headers: this.headers
         })
-        .then(this._checkResponse)
+        .then(this._checkResponse);
     }
 
     _checkResponse(res){

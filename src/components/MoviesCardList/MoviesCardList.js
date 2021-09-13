@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 // Компоненты
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList(props) {
     let location = useLocation();
@@ -44,6 +45,13 @@ function MoviesCardList(props) {
  
     return (
         <section className="movies-cards">
+            {props.isLoading && <Preloader/>}
+
+            {props.noResult
+                ? <p className="movies-cards__no-result">Поиск не дал результатов</p>
+                : ''}
+
+
             <div className="movies-cards__container">
                 {props.cards.slice(0, numberOfMovies).map((item) => {
                 return (
@@ -53,7 +61,7 @@ function MoviesCardList(props) {
                     key={item.id}
                     onSave={props.onSave}
                     onDelete={props.onDelete}
-                    isSaved={props.isSaved}
+                    savedMovies={props.savedMovies}
                     />
                     )
                 })}

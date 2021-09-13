@@ -8,11 +8,25 @@ import Header from '../Header/Header';
 
 
 function SavedMovies(props) {
+    console.log(props.cards);
+
     return (
         <>
             <Header />
-            <SearchForm />
+            <SearchForm
+            onSearch={props.onSearch}
+            onCheck={props.onCheck}
+            shortMovie={props.shortMovie}
+            />
+
             <MoviesCardList
+            cards={props.cards}
+            hideButton={props.hideButton}
+            onSave={props.onSave}
+            onDelete={props.onDelete}
+            savedMovies={props.savedMovies}
+            noResult={props.noResult}
+            isLoading={props.isLoading}
             />
             <Footer />
         </>    

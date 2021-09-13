@@ -30,11 +30,12 @@ function App() {
   const [movies, setMovies] = React.useState([]);
   const [sortedMovies, setSortedMovies] = React.useState([]);
   const [isButtonHide, setIsButtonHide] = React.useState(false);
-  const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [shortMovie, setShortMovie] = React.useState(false);
+  const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
+console.log(savedMovies);
 
 /////////////////////////////////////
 //////////// АККАУНТ ////////////////
@@ -135,17 +136,12 @@ function App() {
 /////////// ФИЛЬМЫ //////////////////
 /////////////////////////////////////
 
-  const isSaved = (movie) => savedMovies.some(i => i.id === movie.id);
-
   //Сохранение фильма
   function saveCard(movie) {
-    console.log(localStorage);
-    console.log(movie);
     mainApi.saveMovie(movie)
-      .then(savedMovie => {
-        setSavedMovies([...savedMovies, savedMovie]);
-        localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, savedMovie]));
-        return [...savedMovies, savedMovie];
+      .then((card) => {
+        setSavedMovies([card, ...savedMovies]);
+        localStorage.setItem('savedMovies', JSON.stringify([card, ...savedMovies]));
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -155,14 +151,13 @@ function App() {
   //Удаление из сохраненных
   function deleteCard(card) {
     console.log(card);
-    mainApi.deleteMovie(card.id)
-      .then((movie) => {
-        const savedMoviesList = savedMovies.filter((m) => m._id !== movie._id);
-        setSavedMovies(savedMoviesList);
+    
+    mainApi.deleteCard(card)
+      .then((deletedMovie) => {
+        const newSavedMovies = savedMovies.filter((e) => e.movieId !== deletedMovie.movieId);
+        setSavedMovies(newSavedMovies);   
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
       })
-      .catch((err) => {
-        console.log(`Attention! ${err}`);
-      });
   }
 
   //Поиск фильмов
@@ -190,20 +185,20 @@ function App() {
   function searchSavedMovies(word) {
     showPreloader();
     const keyword = word.toLowerCase();
-    const result = [];
+    const result = [savedMovies];
     savedMovies.forEach((item) => {
       if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword)) ||
           (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
             result.push(item);
             setIsNoSearchResult(false);
-            setIsButtonHide(false)
+            setIsButtonHide(true);
             setSavedMovies(result);
             localStorage.setItem('savedMovieSearchResult', JSON.stringify(result));
             //console.log(localStorage);
       } else if (result.length < 1) {
             setIsNoSearchResult(true);
             setIsButtonHide(true);
-            setSavedMovies([]);
+            setSavedMovies([savedMovies]);
       }
     })
   }
@@ -258,21 +253,25 @@ function App() {
             isLoading={isLoading}
             onSearch={searchMovies}
             hideButton={isButtonHide}
-            noResult={isNoSearchResult}
             onSave={saveCard}
             onDelete={deleteCard}
-            isSaved={isSaved}
+            savedMovies={savedMovies}
             onCheck={handleCheckBox}
+            noResult={isNoSearchResult}
              />
           </Route>
 
           <Route path="/saved-movies">
             <SavedMovies
             loggedIn={loggedIn}
-            cards={savedMovies}
+            cards={filterShortMovies(savedMovies)}
+            shortMovie={shortMovie}
+            isLoading={isLoading}
+            hideButton={isButtonHide}
             onSearch={searchSavedMovies}
             onDelete={deleteCard}
-            isSaved={isSaved} />
+            noResult={isNoSearchResult}
+            />
           </Route>
 
           <Route path="/profile">
