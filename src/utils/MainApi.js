@@ -50,9 +50,19 @@ class MainApi {
         .then(this._checkResponse);
     }
 
+    //запрос сохраненных фильмов
+    getSavedMovies() {
+        return fetch(`${this.baseUrl}/movies`, {
+          method: 'GET',
+          headers: this.headers,
+          credentials: 'include',
+        })
+        .then(this._checkResponse);
+    }
+
     //удаление фильма
     deleteCard(movie) {
-        return fetch(`${this.baseUrl}/cards/${movie._id}`, {
+        return fetch(`${this.baseUrl}/movies/${movie._id}`, {
           method: 'DELETE',
           headers: this.headers
         })

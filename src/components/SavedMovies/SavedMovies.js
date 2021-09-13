@@ -8,7 +8,6 @@ import Header from '../Header/Header';
 
 
 function SavedMovies(props) {
-    console.log(props.cards);
 
     return (
         <>
@@ -26,6 +25,7 @@ function SavedMovies(props) {
             onDelete={props.onDelete}
             savedMovies={props.savedMovies}
             noResult={props.noResult}
+            onCheck={props.onCheck}
             isLoading={props.isLoading}
             />
             <Footer />

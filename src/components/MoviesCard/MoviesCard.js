@@ -4,8 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 function MoviesCard(props) {
     let location = useLocation();
-
-    const isSaved = props.savedMovies.find(e => e.movieId === props.movie.id);
+    // const isSaved = props.savedMovies.find(e => e.movieId === props.movie.id);
 
     //Изменение формата продолжительности
     function durationToString(dur) {
@@ -33,11 +32,13 @@ function MoviesCard(props) {
                     <p className="card__duraton">{durationToString(props.movie.duration)}</p>
                 </div>
 
-                {location.pathname === '/movies' && !isSaved && (
+                {location.pathname === '/movies' && 
+                !(props.savedMovies.find(e => e.movieId === props.movie.id)) && (
                     <button className='card__save-button' onClick={handleSaveMovie}>
                         <div className='card__save-icon'></div>
                     </button>)}
-                {location.pathname === '/movies' && isSaved && (
+                {location.pathname === '/movies' &&
+                (props.savedMovies.find(e => e.movieId === props.movie.id)) && (
                     <button className='card__save-button card__save-button_active' onClick={handleDeleteMovie}>
                         <div className='card__save-icon card__save-icon_active'></div>
                     </button>)}
@@ -52,10 +53,19 @@ function MoviesCard(props) {
             href={props.trailer}
             target="_blank"
             rel="noreferrer">
-                <div
-                className="card__image"
-                style={{ backgroundImage: `url(https://api.nomoreparties.co${props.movie.image.url})`}}>
-                </div>
+                {location.pathname === '/movies' && (
+                    <div
+                    className="card__image"
+                    style={{ backgroundImage: `url(https://api.nomoreparties.co${props.movie.image.url})`}}>
+                    </div>
+                )}
+                {location.pathname === '/saved-movies' && (
+                    <div
+                    className="card__image"
+                    style={{ backgroundImage: `url(${props.movie.image})`}}>
+                    </div>
+                )}
+
             </a>
         </div>
     )

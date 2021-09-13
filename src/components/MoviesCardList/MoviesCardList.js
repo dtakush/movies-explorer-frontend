@@ -58,7 +58,7 @@ function MoviesCardList(props) {
                     <MoviesCard
                     movie={item}
                     trailer={item.trailerLink}
-                    key={item.id}
+                    key={item.id || item.movieId}
                     onSave={props.onSave}
                     onDelete={props.onDelete}
                     savedMovies={props.savedMovies}
