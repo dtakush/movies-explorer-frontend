@@ -141,24 +141,11 @@ function App() {
   function saveCard(movie) {
     console.log(localStorage);
     console.log(movie);
-
-    mainApi.saveMovie({
-      country: movie.country || 'unknown',
-      director: movie.director || 'unknown',
-      duration: movie.duration || 'No data',
-      year: movie.year || 'unknown',
-      description: movie.description || 'No description',
-      image: movie.image.url,
-      trailer: movie.trailerLink || 'No trailer',
-      thumbnail: movie.image.url || 'No image',
-      movieId: movie.id || 'No data',
-      nameRU: movie.nameRU || 'No name',
-      nameEN: movie.nameEN || 'No name',
-  })
-      .then((card) => {
-        console.log(card);
-        setSavedMovies([...card, ...savedMovies]);
-        localStorage.setItem('savedMovies', JSON.stringify([...card, ...savedMovies]));
+    mainApi.saveMovie(movie)
+      .then(savedMovie => {
+        setSavedMovies([...savedMovies, savedMovie]);
+        localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, savedMovie]));
+        return [...savedMovies, savedMovie];
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);

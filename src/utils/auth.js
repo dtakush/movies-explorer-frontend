@@ -39,7 +39,7 @@ export const authorize = (email, password) => {
     body: JSON.stringify({
       email: email,
       password: password})
-  })
+    })
     .then((res) => {
         if(res.status === 200) {
           return res.json();

@@ -29,38 +29,24 @@ class MainApi {
     }
 
     //сохранение фильма
-    saveMovie({
-        country,
-        director,
-        duration,
-        year,
-        description,
-        image,
-        trailer,
-        thumbnail,
-        movieId,
-        nameRU,
-        nameEN
-    }) {
+    saveMovie(movie) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
-                country,
-                director,
-                duration,
-                year,
-                description,
-                image,
-                trailer,
-                thumbnail,
-                movieId,
-                nameRU,
-                nameEN
+                movieId: movie.id || 0,
+                nameRU: movie.nameRU || 'no name',
+                nameEN: movie.nameEN || 'no english name',
+                director: movie.director || 'no director',
+                description: movie.description || 'no description',
+                trailer: movie.trailerLink || 'https://www.youtube.com/channel/UCng_jFvloTT9v7JlSwi_qSQ',
+                country: movie.country || 'no country',
+                duration: movie.duration || 0,
+                year: movie.year || 'no year',
+                image: `https://api.nomoreparties.co${movie.image.url}`,
+                thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
             }),
-        })
-        .then((res) => console.log(res))
-        .then(this._checkResponse)
+        });
     }
 
     //удаление фильма

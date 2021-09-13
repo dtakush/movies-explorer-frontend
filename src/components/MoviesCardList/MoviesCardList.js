@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Компоненты
@@ -35,7 +35,7 @@ function MoviesCardList(props) {
             setNumberOfMovies(5);
             setLoadMore(5);
         }
-    }, []);
+    }, [windowWidth]);
 
     function clickLoadMore() {
         return setNumberOfMovies(numberOfMovies + loadMore);

@@ -10,7 +10,6 @@ import useValidation from '../../utils/formValidation';
 function Profile(props) {
     const currentUser = React.useContext(CurrentUserContext);
     const formValidation = useValidation(currentUser);
-    const { name, email } = formValidation.formValues;
 
     const {
         formValues,
