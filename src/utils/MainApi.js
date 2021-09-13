@@ -29,24 +29,25 @@ class MainApi {
     }
 
     //сохранение фильма
-    saveMovie(movie) {
+    saveMovie(data) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
-                country: movie.country,
-                director: movie.director,
-                duration: movie.duration,
-                year: movie.year,
-                description: movie.description,
-                image: movie.image.url,
-                trailer: movie.trailerLink,
-                nameRU: movie.nameRU,
-                nameEN: movie.nameEN,
-                thumbnail: movie.thumbnail,
-                movieId: movie.id,
+                country: data.country || 'unknown',
+                director: data.director || 'unknown',
+                duration: data.duration || 'No data',
+                year: data.year || 'unknown',
+                description: data.description || 'No description',
+                image: data.image,
+                trailer: data.trailerLink || 'No trailer',
+                thumbnail: data.image || 'No image',
+                movieId: data.id || 'No data',
+                nameRU: data.nameRU || 'No name',
+                nameEN: data.nameEN || 'No name',
             }),
         })
+        .then((res) => console.log(res))
         .then(this._checkResponse)
     }
 
@@ -68,7 +69,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-    baseUrl: 'https://api.dtakush.diploma.nomoredomains.monster',
+    baseUrl: mainBaseUrl,
     headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
