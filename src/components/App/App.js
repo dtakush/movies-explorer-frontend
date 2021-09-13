@@ -142,7 +142,19 @@ function App() {
     console.log(localStorage);
     console.log(movie);
 
-    mainApi.saveMovie(movie)
+    mainApi.saveMovie({
+      country: movie.country || 'unknown',
+      director: movie.director || 'unknown',
+      duration: movie.duration || 'No data',
+      year: movie.year || 'unknown',
+      description: movie.description || 'No description',
+      image: movie.image.url,
+      trailer: movie.trailerLink || 'No trailer',
+      thumbnail: movie.image.url || 'No image',
+      movieId: movie.id || 'No data',
+      nameRU: movie.nameRU || 'No name',
+      nameEN: movie.nameEN || 'No name',
+  })
       .then((card) => {
         console.log(card);
         setSavedMovies([...card, ...savedMovies]);

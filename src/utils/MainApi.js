@@ -29,22 +29,34 @@ class MainApi {
     }
 
     //сохранение фильма
-    saveMovie(data) {
+    saveMovie({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailer,
+        thumbnail,
+        movieId,
+        nameRU,
+        nameEN
+    }) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
             body: JSON.stringify({
-                country: data.country || 'unknown',
-                director: data.director || 'unknown',
-                duration: data.duration || 'No data',
-                year: data.year || 'unknown',
-                description: data.description || 'No description',
-                image: data.image,
-                trailer: data.trailerLink || 'No trailer',
-                thumbnail: data.image || 'No image',
-                movieId: data.id || 'No data',
-                nameRU: data.nameRU || 'No name',
-                nameEN: data.nameEN || 'No name',
+                country,
+                director,
+                duration,
+                year,
+                description,
+                image,
+                trailer,
+                thumbnail,
+                movieId,
+                nameRU,
+                nameEN
             }),
         })
         .then((res) => console.log(res))
