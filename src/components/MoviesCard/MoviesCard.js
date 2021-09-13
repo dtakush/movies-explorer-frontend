@@ -17,19 +17,7 @@ function MoviesCard(props) {
 
     function handleSaveMovie(e) {
         e.preventDefault();
-        props.onSave({
-            country: props.movie.country ? props.movie.country : 'пустое поле',
-            director: props.movie.director,
-            duration: props.movie.duration,
-            year: props.movie.year,
-            description: props.movie.description,
-            image: `https://api.nomoreparties.co${props.movie.image.url}`,
-            trailer: props.movie.trailerLink,
-            nameRU: props.movie.nameRU,
-            nameEN: props.movie.nameEN,
-            thumbnail: `https://api.nomoreparties.co${props.movie.image.formats.thumbnail.url}`,
-            id: props.movie.id,
-        });
+        props.onSave(props.movie);
     }
 
     function handleDeleteMovie(e) {

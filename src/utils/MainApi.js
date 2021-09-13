@@ -29,11 +29,23 @@ class MainApi {
     }
 
     //сохранение фильма
-    saveMovie(data) {
+    saveMovie(movie) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                country: movie.country,
+                director: movie.director,
+                duration: movie.duration,
+                year: movie.year,
+                description: movie.description,
+                image: movie.image.url,
+                trailer: movie.trailerLink,
+                nameRU: movie.nameRU,
+                nameEN: movie.nameEN,
+                thumbnail: movie.thumbnail,
+                movieId: movie.id,
+            }),
         })
         .then(this._checkResponse)
     }

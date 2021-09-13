@@ -138,13 +138,28 @@ function App() {
   const isSaved = (movie) => savedMovies.some(i => i.id === movie.id);
 
   //Сохранение фильма
-  function saveCard(card) {
+  function saveCard(movie) {
     console.log(localStorage);
-    console.log(card);
-    mainApi.saveMovie(card)
-      .then((movie) => {
-        console.log(movie);
-        setSavedMovies([...savedMovies, movie])
+    console.log(movie);
+    const nameEN = movie.nameEN ? movie.nameEN : movie.nameRU;
+    const country = movie.country ? movie.country : 'Неизвестно';
+
+    mainApi.saveMovie({
+      country: country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      image: `https://api.nomoreparties.co${movie.image.url}`,
+      trailer: movie.trailerLink,
+      nameRU: movie.nameRU,
+      nameEN: nameEN,
+      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      movieId: movie.id,
+    })
+      .then((card) => {
+        console.log(card);
+        setSavedMovies([card, ...savedMovies])
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);

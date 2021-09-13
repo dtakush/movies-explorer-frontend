@@ -22,16 +22,16 @@
 }
 
 .checkbox__indicator {
-  background-color: #fff;
+  background-color: #ccc;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: .3s ease-in-out;
   position: absolute;
   top: 6px;
   left: 6px;
+  transition: .3s ease-in-out;
 }
 
 .checkbox__input {
@@ -41,6 +41,7 @@
 
 .checkbox__input:checked ~ .checkbox__indicator {
   left: 22px;
+  background-color: #fff;
 }
 
 .checkbox__indicator::before{

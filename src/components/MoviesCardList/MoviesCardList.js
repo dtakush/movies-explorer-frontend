@@ -13,17 +13,25 @@ function MoviesCardList(props) {
 
     const [numberOfMovies, setNumberOfMovies] = React.useState(12);
     const [loadMore, setLoadMore] = React.useState(3);
+    const [windowWidth, setWindowWidth] = React.useState(0);
 
-    React.useEffect((windowSize) => {
-        if(windowSize > maxWindowSize) {
+    React.useEffect(() => {
+        function updateWindowWidth() {
+            setWindowWidth(window.innerWidth);
+        }
+
+        window.addEventListener('resize', updateWindowWidth);
+        updateWindowWidth();
+    }, []);
+
+    React.useEffect(() => {
+        if(windowWidth > maxWindowSize) {
             setNumberOfMovies(12);
             setLoadMore(3);
-        }
-        if (windowSize < maxWindowSize && windowSize > midWindowSize) {
+        } else if (windowWidth < maxWindowSize && windowWidth > midWindowSize) {
             setNumberOfMovies(8);
             setLoadMore(2);
-        }
-        if (windowSize < midWindowSize && windowSize > minWindowSize) {
+        } else if (windowWidth < midWindowSize && windowWidth > minWindowSize) {
             setNumberOfMovies(5);
             setLoadMore(5);
         }
@@ -33,7 +41,6 @@ function MoviesCardList(props) {
         return setNumberOfMovies(numberOfMovies + loadMore);
     }
 
-    console.log(numberOfMovies);
  
     return (
         <section className="movies-cards">
