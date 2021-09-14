@@ -5,24 +5,29 @@ export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      name: name,
-      email: email,
-      password: password})
+      "name": name,
+      "email": email,
+      "password": password})
   })
   .then((res) => {
-    try {
-      if (res.status !== 400){
-        return res.json();
-      }
-    } catch(e){
-      return (e)
+    console.log(res);
+    if(res.status === 200) {
+      return res.json();
     }
-  })
-  .then((res) => {
-    return res;
+    if(res.status === 400) {
+      console.log("Не передано одно из полей");
+    }
+    if(res.status === 401) {
+      console.log("Пользователь с email не найден");
+    }
+})
+  .then((data) => {
+    console.log(data);
+    return data;
   })
   .catch((err) => console.log(err));
 };
@@ -37,8 +42,8 @@ export const authorize = (email, password) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: email,
-      password: password})
+      "email": email,
+      "password": password})
     })
     .then((res) => {
         if(res.status === 200) {
@@ -52,6 +57,7 @@ export const authorize = (email, password) => {
         }
     })
     .then((data) => {
+      console.log(data);
       if (data.token) {
         localStorage.setItem('jwt', data.token);
         return data;

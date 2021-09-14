@@ -6,6 +6,8 @@ import logo from '../../images/logo.svg';
 
 function Entrance(props) {
     let location = useLocation();
+    
+    
 
     return (
             <div className="entrance__container">
@@ -25,6 +27,7 @@ function Entrance(props) {
                                     : "entrance__button"}`}
                     type="submit"
                     id="entrance__submit"
+                    disabled={!props.isInputValid}
                     >
                         {props.buttonText}
                     </button>

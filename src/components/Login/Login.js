@@ -5,13 +5,20 @@ import useValidation from '../../utils/formValidation';
 import Entrance from '../Entrance/Entrance';
 
 function Login(props) {
-    const formValidation = useValidation();
-    const { email, password } = formValidation.formValues;
+    const { handleInputChange,
+        isInputValid,
+        resetForm,
+        formValues,
+        errors,
+        handleEmailChange } = useValidation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onLogin({email, password});
+        props.onLogin(formValues.email, formValues.password);
+        resetForm();
     };
+
+    console.log(formValues.email, formValues.password);
 
     return (
         <section className="login">
@@ -22,6 +29,7 @@ function Login(props) {
             entranceText='Ещё не зарегистрированы?'
             entranceLink='Регистрация'
             onSubmit={handleSubmit}
+            isInputValid={isInputValid}
             >
                     <p className="entrance__form-text">E-mail</p>
                     <input
@@ -31,12 +39,12 @@ function Login(props) {
                     placeholder="Введите свою почту"
                     type="email"
                     required
-                    value={formValidation.formValues.email || ''}
-                    onChange={formValidation.handleInputChange}
+                    value={formValues.email || ''}
+                    onChange={handleEmailChange}
                     />
                     <span
                     className="entrance__input-error"
-                    id="login-email-error">{formValidation.errors.email}</span>
+                    id="login-email-error">{errors.email}</span>
 
                     <p className="entrance__form-text">Пароль</p>
                     <input
@@ -47,12 +55,12 @@ function Login(props) {
                     type="password"
                     required
                     minLength="5"
-                    value={formValidation.formValues.password || ''}
-                    onChange={formValidation.handleInputChange}
+                    value={formValues.password || ''}
+                    onChange={handleInputChange}
                     />
                     <span
                     className="entrance__input-error"
-                    id="login-password-error">{formValidation.errors.password}</span>
+                    id="login-password-error">{errors.password}</span>
             </Entrance>    
         </section>
     )

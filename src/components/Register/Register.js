@@ -5,12 +5,17 @@ import useValidation from '../../utils/formValidation';
 import Entrance from '../Entrance/Entrance';
 
 function Register(props) {
-    const formValidation = useValidation();
-    const { name, email, password } = formValidation.formValues;
+    const { handleInputChange,
+        isInputValid,
+        resetForm,
+        formValues,
+        errors,
+        handleEmailChange } = useValidation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onRegister({name, email, password});
+        props.onRegister(formValues.name, formValues.email, formValues.password);
+        resetForm();
     };
 
     return (
@@ -22,6 +27,7 @@ function Register(props) {
             entranceText='Уже зарегистрированы?'
             entranceLink='Войти'
             onSubmit={handleSubmit}
+            isInputValid={isInputValid}
             >
                     <p className="entrance__form-text">Имя</p>
                     <input
@@ -32,12 +38,12 @@ function Register(props) {
                     type="text"
                     required
                     minLength="3"
-                    value={formValidation.formValues.name || ''}
-                    onChange={formValidation.handleInputChange}
+                    value={formValues.name || ''}
+                    onChange={handleInputChange}
                     />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-name-error">{formValidation.errors.name}</span>
+                    id="entrance__input-name-error">{errors.name}</span>
 
                     <p className="entrance__form-text">E-mail</p>
                     <input
@@ -47,12 +53,12 @@ function Register(props) {
                     placeholder="Введите свою почту"
                     type="email"
                     required
-                    value={formValidation.formValues.email || ''}
-                    onChange={formValidation.handleInputChange}
+                    value={formValues.email || ''}
+                    onChange={handleEmailChange}
                     />
                     <span
                     className="entrance__input-error"
-                    id="entrance__input-email-error">{formValidation.errors.email}</span>
+                    id="entrance__input-email-error">{errors.email}</span>
 
                     <p className="entrance__form-text">Пароль</p>
                     <input
@@ -63,12 +69,12 @@ function Register(props) {
                     type="password"
                     required
                     minLength="5"
-                    value={formValidation.formValues.password || ''}
-                    onChange={formValidation.handleInputChange}
+                    value={formValues.password || ''}
+                    onChange={handleInputChange}
                     />
                     <span
                     className="entrance__input-error"
-                    id="register-password-error">{formValidation.errors.password}</span>
+                    id="register-password-error">{errors.password}</span>
 
             </Entrance>
         </section>

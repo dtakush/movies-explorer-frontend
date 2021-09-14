@@ -71,6 +71,10 @@
     transition: 1s ease-in-out;
 }
 
+.entrance__button:disabled {
+    background-color: #ccc;
+}
+
 .entrance__button-login {
     margin: 221px 0 31px;
 }

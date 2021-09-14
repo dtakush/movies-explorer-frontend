@@ -36,25 +36,35 @@ function App() {
   const [shortMovie, setShortMovie] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
+  //onsole.log(localStorage);
 /////////////////////////////////////
 //////////// АККАУНТ ////////////////
 /////////////////////////////////////
 
   //Регистрация пользователя
-  function handleRegister({name, email, password}) {
+  function handleRegister(name, email, password) {
     auth.register(name, email, password)
       .then((res) => {
-        if (res) {
-          history.push('/signin');
-        } 
+        console.log(res);
+        
+        auth.authorize(res.email, res.password)
+          .then((res) => {
+            if(res && res.token) {
+              localStorage.setItem('jwt', res.token);
+              history.push('/movies');
+              setLoggedIn(true);
+              tokenCheck();
+            } else {
+              setLoggedIn(false);
+            }
       })
       .catch((err) => {
         console.log(`При регистрации: ${err}`);
       })
-  }
+  })}
 
   //Авторизация пользователя
-  function handleLogin({email, password}) {
+  function handleLogin(email, password) {
     auth.authorize(email, password)
     .then((res) => {
       if(res && res.token) {
@@ -251,7 +261,7 @@ function App() {
           }
         })
       }  
-    }, [loggedIn]);
+    }, [loggedIn, currentUser._id]);
 
 
   return (
