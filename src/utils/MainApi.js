@@ -7,19 +7,27 @@ class MainApi {
     }
 
     //Запрос информации о пользователе    
-    getUserInfo() {
+    getUserInfo(jwt) {
         return fetch(`${this.baseUrl}/users/me`, {
           method: 'GET',
-          headers: this.headers
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+            },
         })
         .then(this._checkResponse)
     }
 
     //Изменение информации о пользователе
-    setUserInfo(name, email) {
+    setUserInfo(name, email, jwt) {
         return fetch(`${this.baseUrl}/users/me`, {
           method: 'PATCH',
-          headers: this.headers,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+            },
           body: JSON.stringify({
             name: name,
             email: email
@@ -29,10 +37,14 @@ class MainApi {
     }
 
     //сохранение фильма
-    saveMovie(movie) {
+    saveMovie(movie, jwt) {
         return fetch(`${this.baseUrl}/movies`, {
             method: 'POST',
-            headers: this.headers,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${jwt}`,
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 movieId: movie.id || 0,
                 nameRU: movie.nameRU || 'no name',

@@ -28,7 +28,7 @@ function App() {
   //Вход
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
-  const jwt = localStorage.getItem('jwt');
+  const [jwt, setJwt] = React.useState('');
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -40,28 +40,6 @@ function App() {
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
   console.log(localStorage);
-/////////////////////////////////////
-/////////// ЗАПРОСЫ //////////////////
-/////////////////////////////////////
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      tokenCheck();
-      setLoggedIn(true);
-      history.push(currentPath);
-    }
-    //eslint-disable-next-line
-  }, []);
-
-  
-  React.useEffect(() => {
-    if(loggedIn) {
-      getAllMovies();
-      getSavedMovies();
-    }
-  }, [loggedIn]);
-  
-
 
 
 /////////////////////////////////////
@@ -75,9 +53,6 @@ function App() {
       .then(() => {
         handleLogin(email, password);
       })
-      .then(() => {
-        history.push('/movies');
-      })
       .catch((err) => {
         console.log(`При регистрации: ${err}`);
       })
@@ -88,9 +63,9 @@ function App() {
     auth.authorize(email, password)
     .then((res) => {
       if(res && res.jwt) {
+        setJwt(res.jwt);
         localStorage.setItem('jwt', res.jwt);
         tokenCheck();
-        getUserInfo();
       }
     })
     .then(() => {
@@ -126,20 +101,10 @@ function App() {
     }
   }
 
-  // Запрос данных пользователя
-  function getUserInfo() {
-    mainApi.getUserInfo()
-        .then((userInfo) => {
-          setCurrentUser(userInfo);
-        })
-        .catch((err) => {
-            console.log(`Attention! ${err}`);
-        });
-  }
-
   //Обновление данных профиля
   function handleUpdateUserInfo(name, email) {
-    mainApi.setUserInfo(name, email)
+    const jwt = localStorage.getItem('jwt');
+    mainApi.setUserInfo(name, email, jwt)
       .then((userData) => {
         setCurrentUser({...currentUser, ...userData});
         console.log('Успешно!');
@@ -166,36 +131,10 @@ function App() {
 /////////// ФИЛЬМЫ //////////////////
 /////////////////////////////////////
 
-  //Запрос всех фильмов
-  function getAllMovies() {
-    moviesApi.getInitialCards()
-      .then((movies) => {
-        localStorage.setItem('movies', movies);
-        setMovies(movies);
-      })
-      .catch((err) => {
-        console.log(`Attention! ${err}`);
-      });
-  }
-
-  //Запрос сохраненных фильмов
-  function getSavedMovies() {
-    mainApi.getSavedMovies()
-      .then(() => {
-        const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-        if (localSavedMovies) {
-          localSavedMovies.filter((item) => item.owner === currentUser._id);
-          setSavedMovies(localSavedMovies);
-        }
-      })
-      .catch((err) => {
-        console.log(`Attention! ${err}`);
-      });
-  }
-
   //Сохранение фильма
   function saveCard(movie) {
-    mainApi.saveMovie(movie)
+    const jwt = localStorage.getItem('jwt');
+    mainApi.saveMovie(movie, jwt)
       .then((card) => {
         setSavedMovies([card, ...savedMovies]);
         localStorage.setItem('savedMovies', JSON.stringify([card, ...savedMovies]));
@@ -282,7 +221,62 @@ function App() {
       }
   }
 
+/////////////////////////////////////
+/////////// ЗАПРОСЫ //////////////////
+/////////////////////////////////////
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      tokenCheck();
+      setLoggedIn(true);
+      history.push(currentPath);
+    }
+    //eslint-disable-next-line
+  }, []);
 
+  //Запрос информации пользователя
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(loggedIn) {
+      mainApi.getUserInfo(jwt)
+        .then((userInfo) => {
+          setCurrentUser(userInfo);
+        })
+        .catch((err) => {
+          console.log(`Attention! ${err}`);
+        });
+      }
+      
+  }, [loggedIn]);
+
+  //Запрос всех фильмов
+  React.useEffect(() => {
+      moviesApi.getInitialCards()
+      .then((movies) => {
+        localStorage.setItem('movies', movies);
+        setMovies(movies);
+      })
+      .catch((err) => {
+        console.log(`Attention! ${err}`);
+      });
+  }, []);
+  
+  //Запрос сохраненных фильмов
+  React.useEffect(() => {
+    if(jwt) {
+      mainApi.getSavedMovies()
+      .then(() => {
+        const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+        if (localSavedMovies) {
+          localSavedMovies.filter((item) => item.owner === currentUser._id);
+          setSavedMovies(localSavedMovies);
+        }
+      })
+      .catch((err) => {
+        console.log(`Attention! ${err}`);
+      });
+    }
+  }, []);
   
 
 
