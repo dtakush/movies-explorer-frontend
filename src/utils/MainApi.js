@@ -63,20 +63,28 @@ class MainApi {
     }
 
     //запрос сохраненных фильмов
-    getSavedMovies() {
+    getSavedMovies(jwt) {
         return fetch(`${this.baseUrl}/movies`, {
           method: 'GET',
-          headers: this.headers,
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        },
           credentials: 'include',
         })
         .then(this._checkResponse);
     }
 
     //удаление фильма
-    deleteCard(movie) {
+    deleteCard(movie, jwt) {
         return fetch(`${this.baseUrl}/movies/${movie._id}`, {
           method: 'DELETE',
-          headers: this.headers
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        },
         })
         .then(this._checkResponse);
     }

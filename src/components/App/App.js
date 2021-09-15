@@ -144,9 +144,10 @@ function App() {
 
   //Удаление из сохраненных
   function deleteCard(card) {
+    const jwt = localStorage.getItem('jwt');
     const movieId = card.id || card.movieId;
     const deletedMovie = savedMovies.filter((i) => i.movieId === movieId);
-    mainApi.deleteCard(deletedMovie[0])
+    mainApi.deleteCard(deletedMovie[0], jwt)
       .then((movie) => {
         const newSavedMovies = savedMovies.filter((e) => e.movieId !== movieId);
         setSavedMovies(newSavedMovies);   
@@ -261,8 +262,9 @@ function App() {
   
   //Запрос сохраненных фильмов
   React.useEffect(() => {
-    if(jwt) {
-      mainApi.getSavedMovies()
+    const jwt = localStorage.getItem('jwt');
+    if(loggedIn) {
+      mainApi.getSavedMovies(jwt)
       .then(() => {
         const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
         if (localSavedMovies) {
@@ -274,7 +276,7 @@ function App() {
         console.log(`Attention! ${err}`);
       });
     }
-  }, []);
+  }, [loggedIn]);
   
 
 
