@@ -265,12 +265,18 @@ function App() {
     const jwt = localStorage.getItem('jwt');
     if(loggedIn) {
       mainApi.getSavedMovies(jwt)
-      .then(() => {
-        const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      .then((allSavedMovies) => {
+        //console.log(allSavedMovies);
+        const localSavedMovies = allSavedMovies.filter((item) => item.owner === currentUser._id);
+        localStorage.setItem('savedMovies', JSON.stringify(localSavedMovies));
+        setSavedMovies(localSavedMovies);
+        //console.log(localSavedMovies);
+
+        /* const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
         if (localSavedMovies) {
           localSavedMovies.filter((item) => item.owner === currentUser._id);
           setSavedMovies(localSavedMovies);
-        }
+        } */
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
