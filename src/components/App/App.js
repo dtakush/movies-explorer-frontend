@@ -39,8 +39,6 @@ function App() {
   const [shortMovie, setShortMovie] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
-  console.log(localStorage);
-
 
 /////////////////////////////////////
 //////////// АККАУНТ ////////////////
