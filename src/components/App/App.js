@@ -28,6 +28,8 @@ function App() {
   //Вход
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [token, setToken] = React.useState('');
+  const jwt = localStorage.getItem('jwt');
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -38,7 +40,79 @@ function App() {
   const [shortMovie, setShortMovie] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
-console.log(localStorage);
+  console.log(localStorage);
+/////////////////////////////////////
+/////////// ЗАПРОСЫ //////////////////
+/////////////////////////////////////
+
+React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+        mainApi.getUserInfo()
+        .then((userInfo) => {
+          setCurrentUser(userInfo);
+        })
+        .catch((err) => {
+            console.log(`Attention! ${err}`);
+        });
+    }
+    //eslint-disable-next-line
+  }, []);
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+      moviesApi.getInitialCards()
+      .then((movies) => {
+        localStorage.setItem('movies', movies);
+        setMovies(movies);
+      })
+      .catch((err) => {
+        console.log(`Attention! ${err}`);
+      });
+    }
+    //eslint-disable-next-line
+  }, []);
+
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+      mainApi.getSavedMovies()
+        .then(() => {
+          const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+          if (localSavedMovies) {
+            localSavedMovies.filter((item) => item.owner === currentUser._id);
+            setSavedMovies(localSavedMovies);
+          }
+        })
+      }
+      //eslint-disable-next-line 
+    }, []);
+
+/* React.useEffect(() => {
+  console.log(token);
+  if (token) {
+    Promise.all([
+      mainApi.getUserInfo(),
+      moviesApi.getInitialCards(),
+      mainApi.getSavedMovies()
+    ])
+    .then(([userInfo, savedMovies]) => {
+      setCurrentUser(userInfo);
+      setMovies(movies);
+      const localSavedMovies = savedMovies.filter(movie => movie.owner === userInfo._id && movie);
+      localStorage.setItem('savedMovies', JSON.stringify(localSavedMovies));
+      setSavedMovies(localSavedMovies);
+    })
+    .catch((err) => {
+      console.log(`Attention! ${err}`);
+    })
+  }
+}, [token]) */
+
+
+
 /////////////////////////////////////
 //////////// АККАУНТ ////////////////
 /////////////////////////////////////
@@ -47,9 +121,9 @@ console.log(localStorage);
   function handleRegister(name, email, password) {
     auth.register(name, email, password)
       .then((res) => {
-        console.log(res);
-        
         handleLogin(email, password);
+      })
+      .then(() => {
         history.push('/movies');
       })
       .catch((err) => {
@@ -64,11 +138,10 @@ console.log(localStorage);
       if(res && res.jwt) {
         localStorage.setItem('jwt', res.jwt);
         tokenCheck();
+        setToken(localStorage.getItem('jwt'));
         setLoggedIn(true);
+        history.push('/movies');
       }
-    })
-    .then(() => {
-      history.push('/movies');
     })
     .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -113,23 +186,29 @@ console.log(localStorage);
   //Выход из аккаунта
   function handleSignOut() {
     setLoggedIn(false);
+    setToken('');
     localStorage.removeItem('jwt');
+    localStorage.removeItem('movies');
+    localStorage.removeItem('savedMovies');
+    localStorage.removeItem('movieSearchResult');
+    localStorage.removeItem('savedMovieSearchResult');
+    localStorage.clear();
     history.push('/');
   }
 
   React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
     if (jwt) {
       tokenCheck();
       setLoggedIn(true);
       history.push(currentPath);
     }
-  //eslint-disable-next-line
-  }, []);
+    //eslint-disable-next-line
+  }, [jwt, currentPath]);
 
   //Запрос информации пользователя
-  React.useEffect(() => {
-    if(loggedIn) {
+  /* React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
         mainApi.getUserInfo()
         .then((userInfo) => {
           setCurrentUser(userInfo);
@@ -139,7 +218,7 @@ console.log(localStorage);
         });
     }
     //eslint-disable-next-line
-  }, []);
+  }, []); */
 
 /////////////////////////////////////
 /////////// ФИЛЬМЫ //////////////////
@@ -234,35 +313,8 @@ console.log(localStorage);
       }
   }
 
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) {
-      moviesApi.getInitialCards()
-      .then((movies) => {   
-        setMovies(movies);
-      })
-      .catch((err) => {
-        console.log(`Attention! ${err}`);
-      });
-    }
-    //eslint-disable-next-line
-  }, []);
 
-
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) {
-      mainApi.getSavedMovies()
-        .then(() => {
-          const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-          if (localSavedMovies) {
-            localSavedMovies.filter((item) => item.owner === currentUser._id);
-            setSavedMovies(localSavedMovies);
-          }
-        })
-      }
-      //eslint-disable-next-line 
-    }, []);
+  
 
 
   return (

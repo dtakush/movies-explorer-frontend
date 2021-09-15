@@ -20,8 +20,6 @@ function Login(props) {
         // resetForm();
     };
 
-    console.log(email, password);
-
     return (
         <section className="login">
             <Entrance
