@@ -4,13 +4,12 @@ import { useLocation } from 'react-router-dom';
 // Компоненты
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import {MAX_WINDOW_SIZE,
+        MID_WINDOW_SIZE,
+        MIN_WINDOW_SIZE} from '../../utils/constants';
 
 function MoviesCardList(props) {
     let location = useLocation();
-
-    const maxWindowSize = 1279;
-    const midWindowSize = 810;
-    const minWindowSize = 319;
 
     const [numberOfMovies, setNumberOfMovies] = React.useState(12);
     const [loadMore, setLoadMore] = React.useState(3);
@@ -26,13 +25,13 @@ function MoviesCardList(props) {
     }, []);
 
     React.useEffect(() => {
-        if(windowWidth > maxWindowSize) {
+        if(windowWidth > MAX_WINDOW_SIZE) {
             setNumberOfMovies(12);
             setLoadMore(3);
-        } else if (windowWidth < maxWindowSize && windowWidth > midWindowSize) {
+        } else if (windowWidth < MAX_WINDOW_SIZE && windowWidth > MID_WINDOW_SIZE) {
             setNumberOfMovies(8);
             setLoadMore(2);
-        } else if (windowWidth < midWindowSize && windowWidth > minWindowSize) {
+        } else if (windowWidth < MID_WINDOW_SIZE && windowWidth > MIN_WINDOW_SIZE) {
             setNumberOfMovies(5);
             setLoadMore(5);
         }

@@ -7,18 +7,20 @@ import Entrance from '../Entrance/Entrance';
 function Login(props) {
     const { handleInputChange,
         isInputValid,
-        resetForm,
+        // resetForm,
         formValues,
         errors,
         handleEmailChange } = useValidation();
+    
+    const { email, password } = formValues;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onLogin(formValues.email, formValues.password);
-        resetForm();
+        props.onLogin(email, password);
+        // resetForm();
     };
 
-    console.log(formValues.email, formValues.password);
+    console.log(email, password);
 
     return (
         <section className="login">

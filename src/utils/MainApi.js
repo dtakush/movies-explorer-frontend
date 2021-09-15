@@ -16,13 +16,13 @@ class MainApi {
     }
 
     //Изменение информации о пользователе
-    setUserInfo(data) {
+    setUserInfo(name, email) {
         return fetch(`${this.baseUrl}/users/me`, {
           method: 'PATCH',
           headers: this.headers,
           body: JSON.stringify({
-            name: data.name,
-            email: data.email
+            name: name,
+            email: email
           })
         })
         .then(this._checkResponse)

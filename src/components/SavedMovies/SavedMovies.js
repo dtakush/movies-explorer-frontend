@@ -11,7 +11,10 @@ function SavedMovies(props) {
 
     return (
         <>
-            <Header />
+            <Header
+            loggedIn={props.loggedIn}
+            />
+            
             <SearchForm
             onSearch={props.onSearch}
             onCheck={props.onCheck}

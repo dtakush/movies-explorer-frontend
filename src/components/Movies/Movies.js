@@ -10,7 +10,10 @@ import Footer from '../Footer/Footer';
 function Movies(props) {
     return (
         <>
-            <Header />
+            <Header
+            loggedIn={props.loggedIn}
+            />
+            
             <SearchForm
             onSearch={props.onSearch}
             onCheck={props.onCheck}

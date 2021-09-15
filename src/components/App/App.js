@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 //Контекст
@@ -22,6 +22,8 @@ import * as auth from "../../utils/auth";
 
 function App() {
   const history = useHistory();
+  let location = useLocation();
+  const currentPath = location.pathname;
 
   //Вход
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -36,7 +38,7 @@ function App() {
   const [shortMovie, setShortMovie] = React.useState(false);
   const [isNoSearchResult, setIsNoSearchResult] = React.useState(false);
 
-  //onsole.log(localStorage);
+console.log(localStorage);
 /////////////////////////////////////
 //////////// АККАУНТ ////////////////
 /////////////////////////////////////
@@ -47,34 +49,26 @@ function App() {
       .then((res) => {
         console.log(res);
         
-        auth.authorize(res.email, res.password)
-          .then((res) => {
-            if(res && res.token) {
-              localStorage.setItem('jwt', res.token);
-              history.push('/movies');
-              setLoggedIn(true);
-              tokenCheck();
-            } else {
-              setLoggedIn(false);
-            }
+        handleLogin(email, password);
+        history.push('/movies');
       })
       .catch((err) => {
         console.log(`При регистрации: ${err}`);
       })
-  })}
+  }
 
   //Авторизация пользователя
   function handleLogin(email, password) {
     auth.authorize(email, password)
     .then((res) => {
-      if(res && res.token) {
-        localStorage.setItem('jwt', res.token);
-        history.push('/movies');
-        setLoggedIn(true);
+      if(res && res.jwt) {
+        localStorage.setItem('jwt', res.jwt);
         tokenCheck();
-      } else {
-        setLoggedIn(false);
+        setLoggedIn(true);
       }
+    })
+    .then(() => {
+      history.push('/movies');
     })
     .catch((err) => {
         console.log(`Attention! ${err}`);
@@ -93,6 +87,7 @@ function App() {
             } else {
               localStorage.removeItem('jwt');
               history.push("/");
+              setLoggedIn(false);
               return
             }
         })
@@ -104,8 +99,8 @@ function App() {
   }
 
   //Обновление данных профиля
-  function handleUpdateUserInfo(userInfo) {
-    mainApi.setUserInfo(userInfo)
+  function handleUpdateUserInfo(name, email) {
+    mainApi.setUserInfo(name, email)
       .then((userData) => {
         setCurrentUser({...currentUser, ...userData});
         console.log('Успешно!');
@@ -117,17 +112,19 @@ function App() {
 
   //Выход из аккаунта
   function handleSignOut() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('savedMovies');
-    localStorage.removeItem('movieSearchResult');
-    localStorage.removeItem('savedMovieSearchResult');
     setLoggedIn(false);
+    localStorage.removeItem('jwt');
     history.push('/');
   }
 
   React.useEffect(() => {
-    tokenCheck();
-    // eslint-disable-next-line
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      tokenCheck();
+      setLoggedIn(true);
+      history.push(currentPath);
+    }
+  //eslint-disable-next-line
   }, []);
 
   //Запрос информации пользователя
@@ -141,8 +138,8 @@ function App() {
             console.log(`Attention! ${err}`);
         });
     }
-    
-  }, [loggedIn]);
+    //eslint-disable-next-line
+  }, []);
 
 /////////////////////////////////////
 /////////// ФИЛЬМЫ //////////////////
@@ -201,17 +198,17 @@ function App() {
     savedMovies.forEach((item) => {
       if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keyword)) ||
           (item.nameEN !== null && item.nameEN.toLowerCase().includes(keyword))) {
-            result.push(item);
-            setIsNoSearchResult(false);
-            setIsButtonHide(true);
-            setSavedMovies(result);
-            localStorage.setItem('savedMovieSearchResult', JSON.stringify(result));
-            //console.log(localStorage);
-      } else if (result.length < 1) {
-            setIsNoSearchResult(true);
-            setIsButtonHide(true);
-            setSavedMovies([]);
-      }
+          result.push(item);
+          setIsNoSearchResult(false);
+          setIsButtonHide(true);
+          setSavedMovies(result);
+          localStorage.setItem('savedMovieSearchResult', JSON.stringify(result));
+          //console.log(localStorage);
+        } else if (result.length < 1) {
+          setIsNoSearchResult(true);
+          setIsButtonHide(true);
+          setSavedMovies([]);
+        }
     })
   }
 
@@ -238,7 +235,8 @@ function App() {
   }
 
   React.useEffect(() => {
-    if(loggedIn) {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
       moviesApi.getInitialCards()
       .then((movies) => {   
         setMovies(movies);
@@ -247,11 +245,13 @@ function App() {
         console.log(`Attention! ${err}`);
       });
     }
-  }, [loggedIn]);
+    //eslint-disable-next-line
+  }, []);
 
 
   React.useEffect(() => {
-    if(loggedIn) {
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
       mainApi.getSavedMovies()
         .then(() => {
           const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
@@ -260,16 +260,19 @@ function App() {
             setSavedMovies(localSavedMovies);
           }
         })
-      }  
-    }, [loggedIn, currentUser._id]);
+      }
+      //eslint-disable-next-line 
+    }, []);
 
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+
         <Switch>
           <Route exact path="/">
-            <Main />
+            <Main
+            loggedIn={loggedIn} />
           </Route>
 
           <ProtectedRoute exact path="/movies"

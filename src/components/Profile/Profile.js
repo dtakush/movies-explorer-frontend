@@ -4,7 +4,6 @@ import React from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 // Компоненты
-import Header from '../Header/Header';
 import useValidation from '../../utils/formValidation';
 
 function Profile(props) {
@@ -15,9 +14,12 @@ function Profile(props) {
         formValues,
         errors,
         isInputValid,
-        resetForm,
+        //resetForm,
+        //setIsInputValid,
         handleInputChange,
     } = formValidation;
+
+    const { name, email } = formValues;
 
     const buttonClassName = `${
         isInputValid 
@@ -25,16 +27,25 @@ function Profile(props) {
         : "profile__button profile__edit-button profile__edit-button_disabled"
     }`;
 
+    /* function setSameInfo() {
+        if ((currentUser.name === formValues.name) || (currentUser.email === formValues.email)) {
+            setIsInputValid(false);
+        }
+    }
+
+    React.useEffect(() => {
+        setSameInfo();
+        //eslint-disable-next-line
+    }, []) */
+
     function handleSubmit(evt) {
         evt.preventDefault();
-        props.onUpdateUser(formValues);
-        resetForm();
+        props.onUpdateUser(name, email);
+        //resetForm();
     }
 
     return (
         <section className="profile">
-            <Header />
-            
             <div className="profile__container">
                 <h2 className="profile__hello">Привет, {currentUser.name}!</h2>
                 <form
