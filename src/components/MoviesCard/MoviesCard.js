@@ -1,9 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import MOVIE_INFO_URL from '../../constants/constants';
-
-
 function MoviesCard(props) {
     let location = useLocation();
     // const isSaved = props.savedMovies.find(e => e.movieId === props.movie.id);

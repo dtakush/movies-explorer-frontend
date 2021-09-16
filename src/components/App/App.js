@@ -28,6 +28,7 @@ function App() {
   //Вход
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
+  const [successMessage, setSuccessMessage] = React.useState(false);
   // const [jwt, setJwt] = React.useState('');
 
   //Карточки
@@ -106,9 +107,11 @@ function App() {
     mainApi.setUserInfo(name, email, jwt, currentUser)
       .then((userData) => {
         setCurrentUser({...currentUser, ...userData});
+        setSuccessMessage(true);
         console.log('Успешно!');
       })
       .catch((err) => {
+        setSuccessMessage(false);
         console.log(`Attention! ${err}`);
     })
   }
@@ -336,6 +339,7 @@ function App() {
               loggedIn={loggedIn}
               onUpdateUser={handleUpdateUserInfo}
               onSignOut={handleSignOut}
+              successMessage={successMessage}
           />
 
           <Route path="/signin">

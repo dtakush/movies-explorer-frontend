@@ -38,6 +38,7 @@ function Profile(props) {
         if((formValues.name === currentUser.name) || (formValues.email === currentUser.email)) {
             setIsInputValid(false);
         }
+        //eslint-disable-next-line
     }, [formValues])
 
     return (
@@ -92,6 +93,16 @@ function Profile(props) {
                         className="profile__input-error"
                         id="profile__input-email-error">{errors.email}</span>
                     </div>
+
+                    {props.successMessage 
+                    ? <h5 className="profile__success-message">
+                        Вы успешно изменили данные
+                      </h5>
+                    :
+                      <h5 className="profile__success-message profile__success-message_false">
+                        Вы успешно изменили данные
+                      </h5>
+                    }
 
                     {isInputValid 
                     ? <button

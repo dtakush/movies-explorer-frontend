@@ -110,6 +110,17 @@
     margin: 0 auto 70px;
 }
 
+.profile__success-message {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #ccc;
+    margin: 30px auto 0;
+}
+
+.profile__success-message_false {
+    display: none;
+}
+
 @media screen and (max-width: 1200px) {
     .profile__hello {
         margin: 236px 0 96px;
