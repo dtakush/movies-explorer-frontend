@@ -213,9 +213,13 @@ function App() {
 
   //фильтрация по продолжительности
   function filterShortMovies(sortedMovies) {
+    //console.log(sortedMovies);
+
       if (sortedMovies.length !== 0 || sortedMovies !== 'undefined') {
-          return sortedMovies.filter((movie) =>
-              shortMovie ? movie.duration <= 40 : true
+          return sortedMovies.filter((movie) => 
+            shortMovie
+              ? movie.duration <= 40
+              : true
           )
       }
   }
@@ -223,6 +227,7 @@ function App() {
 /////////////////////////////////////
 /////////// ЗАПРОСЫ //////////////////
 /////////////////////////////////////
+
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -245,7 +250,7 @@ function App() {
           console.log(`Attention! ${err}`);
         });
       }
-      
+      //eslint-disable-next-line
   }, [loggedIn]);
 
   //Запрос всех фильмов
@@ -260,29 +265,29 @@ function App() {
       });
   }, []);
   
+  //console.log(savedMovies);
+  //console.log(localStorage);
   //Запрос сохраненных фильмов
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
+    //const userSavedMovies = localStorage.getItem('savedMovies');
+    //console.log(userSavedMovies);
+    //setSavedMovies(userSavedMovies);
+
     if(loggedIn) {
       mainApi.getSavedMovies(jwt)
       .then((allSavedMovies) => {
         //console.log(allSavedMovies);
         const localSavedMovies = allSavedMovies.filter((item) => item.owner === currentUser._id);
         localStorage.setItem('savedMovies', JSON.stringify(localSavedMovies));
-        setSavedMovies(localSavedMovies);
         //console.log(localSavedMovies);
-
-        /* const localSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-        if (localSavedMovies) {
-          localSavedMovies.filter((item) => item.owner === currentUser._id);
-          setSavedMovies(localSavedMovies);
-        } */
+        setSavedMovies(localSavedMovies);
       })
       .catch((err) => {
         console.log(`Attention! ${err}`);
       });
     }
-  }, [loggedIn]);
+  }, [currentUser]);
   
 
 
