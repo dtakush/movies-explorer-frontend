@@ -1,13 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import useValidation from '../../utils/formValidation';
 
 // Компоненты
 import Entrance from '../Entrance/Entrance';
 
 function Login(props) {
+    const history = useHistory();
+
     const { handleInputChange,
         isInputValid,
-        // resetForm,
+        resetForm,
         formValues,
         errors,
         handleEmailChange } = useValidation();
@@ -17,8 +20,15 @@ function Login(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onLogin(email, password);
-        // resetForm();
+        resetForm();
     };
+
+    React.useEffect(() => {
+        if(props.loggedIn) {
+            history.push('/');
+        }
+        //eslint-disable-next-line
+    }, [props.loggedIn])
 
     return (
         <section className="login">

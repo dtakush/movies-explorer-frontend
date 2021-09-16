@@ -1,4 +1,4 @@
-import { MAIL_BASE_URL, MOVIE_INFO_URL } from "./constants";
+import { MAIL_BASE_URL, MOVIE_INFO_URL } from "../constants/constants";
 
 class MainApi {
     constructor({baseUrl, headers}) {
@@ -20,7 +20,7 @@ class MainApi {
     }
 
     //Изменение информации о пользователе
-    setUserInfo(name, email, jwt) {
+    setUserInfo(name, email, jwt, currentUser) {
         return fetch(`${this.baseUrl}/users/me`, {
           method: 'PATCH',
           headers: {
@@ -29,8 +29,8 @@ class MainApi {
             'Content-Type': 'application/json'
             },
           body: JSON.stringify({
-            name: name,
-            email: email
+            name: name || currentUser.name,
+            email: email || currentUser.email
           })
         })
         .then(this._checkResponse)

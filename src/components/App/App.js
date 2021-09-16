@@ -28,7 +28,7 @@ function App() {
   //Вход
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
-  const [jwt, setJwt] = React.useState('');
+  // const [jwt, setJwt] = React.useState('');
 
   //Карточки
   const [movies, setMovies] = React.useState([]);
@@ -61,7 +61,7 @@ function App() {
     auth.authorize(email, password)
     .then((res) => {
       if(res && res.jwt) {
-        setJwt(res.jwt);
+        //setJwt(res.jwt);
         localStorage.setItem('jwt', res.jwt);
         tokenCheck();
       }
@@ -71,7 +71,7 @@ function App() {
       history.push('/movies');
     })
     .catch((err) => {
-        console.log(`Attention! ${err}`);
+      console.log(`Attention! ${err}`);
     })
   }
 
@@ -102,7 +102,8 @@ function App() {
   //Обновление данных профиля
   function handleUpdateUserInfo(name, email) {
     const jwt = localStorage.getItem('jwt');
-    mainApi.setUserInfo(name, email, jwt)
+    
+    mainApi.setUserInfo(name, email, jwt, currentUser)
       .then((userData) => {
         setCurrentUser({...currentUser, ...userData});
         console.log('Успешно!');
@@ -247,6 +248,8 @@ function App() {
           setCurrentUser(userInfo);
         })
         .catch((err) => {
+          history.push("/");
+          setLoggedIn(false);
           console.log(`Attention! ${err}`);
         });
       }
@@ -265,15 +268,11 @@ function App() {
       });
   }, []);
   
-  //console.log(savedMovies);
-  //console.log(localStorage);
+
   //Запрос сохраненных фильмов
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    //const userSavedMovies = localStorage.getItem('savedMovies');
-    //console.log(userSavedMovies);
-    //setSavedMovies(userSavedMovies);
-
+    
     if(loggedIn) {
       mainApi.getSavedMovies(jwt)
       .then((allSavedMovies) => {
@@ -284,9 +283,12 @@ function App() {
         setSavedMovies(localSavedMovies);
       })
       .catch((err) => {
+        history.push("/");
+        setLoggedIn(false);
         console.log(`Attention! ${err}`);
       });
     }
+    //eslint-disable-next-line
   }, [currentUser]);
   
 
@@ -338,17 +340,20 @@ function App() {
 
           <Route path="/signin">
             <Login
+            loggedIn={loggedIn}
             onLogin={handleLogin} />
           </Route>
           
           <Route path="/signup">
             <Register
+            loggedIn={loggedIn}
             onRegister={handleRegister} />
           </Route>
 
           <Route path="*">
             <NotFound />
           </Route>
+
         </Switch>
       </div>
     </CurrentUserContext.Provider>

@@ -1,10 +1,13 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import useValidation from '../../utils/formValidation';
 
 // Компоненты
 import Entrance from '../Entrance/Entrance';
 
 function Register(props) {
+    const history = useHistory();
+
     const { handleInputChange,
         isInputValid,
         resetForm,
@@ -17,6 +20,13 @@ function Register(props) {
         props.onRegister(formValues.name, formValues.email, formValues.password);
         resetForm();
     };
+
+    React.useEffect(() => {
+        if(props.loggedIn) {
+            history.push('/');
+        }
+        //eslint-disable-next-line
+    }, [props.loggedIn])
 
     return (
         <section className="register">

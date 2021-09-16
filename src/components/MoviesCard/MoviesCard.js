@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import MOVIE_INFO_URL from '../../constants/constants';
+
 
 function MoviesCard(props) {
     let location = useLocation();
@@ -23,6 +25,7 @@ function MoviesCard(props) {
         e.preventDefault();
         props.onDelete(props.movie);
     }
+
 
     return (
         <div className="card">
@@ -48,25 +51,34 @@ function MoviesCard(props) {
                     </button>)}
 
             </div>
-            <a
-            className="card__trailer-link"
-            href={props.trailer}
-            target="_blank"
-            rel="noreferrer">
+            
                 {location.pathname === '/movies' && (
-                    <div
-                    className="card__image"
-                    style={{ backgroundImage: `url(https://api.nomoreparties.co${props.movie.image.url})`}}>
-                    </div>
-                )}
-                {location.pathname === '/saved-movies' && (
-                    <div
-                    className="card__image"
-                    style={{ backgroundImage: `url(${props.movie.image})`}}>
-                    </div>
+                    <a
+                    className="card__trailer-link"
+                    href={props.trailer}
+                    target="_blank"
+                    rel="noreferrer">
+                        <div
+                        className="card__image"
+                        style={{ backgroundImage: `url(https://api.nomoreparties.co${props.movie.image.url})`}}>
+                        </div>
+                    </a>
                 )}
 
-            </a>
+                {location.pathname === '/saved-movies' && (
+                    <a
+                    className="card__trailer-link"
+                    href={props.movie.trailer}
+                    target="_blank"
+                    rel="noreferrer">
+                        <div
+                        className="card__image"
+                        style={{ backgroundImage: `url(${props.movie.image})`}}>
+                        </div>
+                    </a>
+                )}
+
+            
         </div>
     )
 }

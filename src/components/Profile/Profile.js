@@ -5,6 +5,7 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 // Компоненты
 import useValidation from '../../utils/formValidation';
+import Header from '../Header/Header';
 
 function Profile(props) {
     const currentUser = React.useContext(CurrentUserContext);
@@ -14,8 +15,8 @@ function Profile(props) {
         formValues,
         errors,
         isInputValid,
-        //resetForm,
-        //setIsInputValid,
+        resetForm,
+        setIsInputValid,
         handleInputChange,
     } = formValidation;
 
@@ -27,27 +28,28 @@ function Profile(props) {
         : "profile__button profile__edit-button profile__edit-button_disabled"
     }`;
 
-    /* function setSameInfo() {
-        if ((currentUser.name === formValues.name) || (currentUser.email === formValues.email)) {
-            setIsInputValid(false);
-        }
-    }
-
-    React.useEffect(() => {
-        setSameInfo();
-        //eslint-disable-next-line
-    }, []) */
-
     function handleSubmit(evt) {
         evt.preventDefault();
         props.onUpdateUser(name, email);
-        //resetForm();
+        resetForm();
     }
+
+    React.useEffect(() => {
+        if((formValues.name === currentUser.name) || (formValues.email === currentUser.email)) {
+            setIsInputValid(false);
+        }
+    }, [formValues])
 
     return (
         <section className="profile">
+            <Header
+            loggedIn={props.loggedIn}
+            />
+
             <div className="profile__container">
-                <h2 className="profile__hello">Привет, {currentUser.name}!</h2>
+                <h2 className="profile__hello">
+                    Привет, {currentUser.name}!
+                </h2>
                 <form
                 className="profile__form"
                 onSubmit={handleSubmit}
@@ -62,7 +64,7 @@ function Profile(props) {
                             name="name"
                             type="text"
                             placeholder={currentUser.name}
-                            value={formValues.name || ''}
+                            value={formValues.name || currentUser.name || ''}
                             onChange={handleInputChange}
                             required
                             />
@@ -81,7 +83,7 @@ function Profile(props) {
                             name="email"
                             type="email"
                             placeholder={currentUser.email}
-                            value={formValues.email || ''}
+                            value={formValues.email || currentUser.email || ''}
                             onChange={handleInputChange}
                             required
                             />

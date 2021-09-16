@@ -6,7 +6,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 import {MAX_WINDOW_SIZE,
         MID_WINDOW_SIZE,
-        MIN_WINDOW_SIZE} from '../../utils/constants';
+        MIN_WINDOW_SIZE} from '../../constants/constants';
 
 function MoviesCardList(props) {
     let location = useLocation();
