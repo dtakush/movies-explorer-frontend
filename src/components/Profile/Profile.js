@@ -93,11 +93,20 @@ function Profile(props) {
                         id="profile__input-email-error">{errors.email}</span>
                     </div>
 
-                    <button
+                    {isInputValid 
+                    ? <button
                     className={buttonClassName}
                     type="submit">
-                        {isInputValid ? "Сохранить" : "Редактировать"}
+                        Сохранить
                     </button>
+                    :
+                    <button
+                    className={buttonClassName}
+                    type="submit"
+                    disabled>
+                        Редактировать
+                    </button>
+                    }
 
                     <button
                     onClick={props.onSignOut}
