@@ -1,60 +1,81 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Компоненты
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
+import {MAX_WINDOW_SIZE,
+        MID_WINDOW_SIZE,
+        MIN_WINDOW_SIZE} from '../../constants/constants';
 
 function MoviesCardList(props) {
     let location = useLocation();
 
-    const maxWindowSize = 1279;
-    const midWindowSize = 810;
-    const minWindowSize = 319;
-
-    const [renderedMovies, setRenderedMovies] = useState([]);
-
-    const getNumberOfMovies = (windowSize) => {
-        if(windowSize > maxWindowSize) {
-            return {first: 12};
-        }
-        if (windowSize < maxWindowSize && windowSize > midWindowSize) {
-            return {first: 8}
-        }
-        if (windowSize < midWindowSize && windowSize > minWindowSize) {
-            return {first: 5}
-        }
-    }
+    const [numberOfMovies, setNumberOfMovies] = React.useState(12);
+    const [loadMore, setLoadMore] = React.useState(3);
+    const [windowWidth, setWindowWidth] = React.useState(0);
 
     React.useEffect(() => {
-        const windowInnerWidth = window.innerWidth;
-        const totalNumberOfMovies = Math.min(props.cards.cards.length, getNumberOfMovies(windowInnerWidth).first);
-        setRenderedMovies(props.cards.cards.slice(0, totalNumberOfMovies));
-        /* console.log(windowInnerWidth); */
-        /* console.log(renderedMovies); */
-    }, [props.cards.cards])
+        function updateWindowWidth() {
+            setWindowWidth(window.innerWidth);
+        }
 
+        window.addEventListener('resize', updateWindowWidth);
+        updateWindowWidth();
+    }, []);
+
+    React.useEffect(() => {
+        if(windowWidth > MAX_WINDOW_SIZE) {
+            setNumberOfMovies(12);
+            setLoadMore(3);
+        } else if (windowWidth < MAX_WINDOW_SIZE && windowWidth > MID_WINDOW_SIZE) {
+            setNumberOfMovies(8);
+            setLoadMore(2);
+        } else if (windowWidth < MID_WINDOW_SIZE && windowWidth > MIN_WINDOW_SIZE) {
+            setNumberOfMovies(5);
+            setLoadMore(5);
+        }
+    }, [windowWidth]);
+
+    function clickLoadMore() {
+        return setNumberOfMovies(numberOfMovies + loadMore);
+    }
+
+ 
     return (
         <section className="movies-cards">
+            {props.isLoading && <Preloader/>}
+
+            {props.noResult
+                ? <p className="movies-cards__no-result">Поиск не дал результатов</p>
+                : ''}
+
+
             <div className="movies-cards__container">
-                {renderedMovies.map((item) => {
+                {props.cards.slice(0, numberOfMovies).map((item) => {
                 return (
                     <MoviesCard
-                    key={item.key}
-                    title={item.title}
-                    duration={item.duration}
-                    link={item.link}
+                    movie={item}
+                    trailer={item.trailerLink}
+                    key={item.id || item.movieId}
+                    onSave={props.onSave}
+                    onDelete={props.onDelete}
+                    savedMovies={props.savedMovies}
                     />
                     )
                 })}
             </div>
-            <button
-            type="button"
-            className={`${location.pathname === '/movies'
+
+            {(props.cards.length >= numberOfMovies)
+                ? <button
+                    type="button"
+                    onClick={clickLoadMore} 
+                    className={`${location.pathname === '/movies'
                             ? "movies-cards__more-button"
-                            : "movies-cards__more-button_saved"}`
-                        }>
-                Ещё
-            </button>
+                            : "movies-cards__more-button_saved"}`}> Еще </button>
+                : ''
+            }
+            
         </section>
     )
 }

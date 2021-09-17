@@ -4,10 +4,18 @@ function FilterCheckbox(props) {
     return (
         <div className="checkbox">
             <p className="checkbox__text">Короткометражки</p>
-            <div className="checkbox__container">
-                <input type="checkbox" value="None" id="filter" name="check" className="checkbox__input" />
-                <label className="checkbox__label"></label>
-            </div>
+            <label className="checkbox__container">
+                <input
+                type="checkbox"
+                value="None"
+                id="filter"
+                name="check"
+                className="checkbox__input"
+                onChange={props.onCheck}
+                checked={props.shortMovie}
+                />
+                <i className="checkbox__indicator"></i>
+            </label>
         </div>
     )
 }

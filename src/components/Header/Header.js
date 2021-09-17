@@ -1,13 +1,13 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useMediaQuery } from "react-responsive";
 
 import logo from '../../images/logo.svg';
 
 import NavigationPopup from '../NavigationPopup/NavigationPopup';
 
-function Header(props) {
-    let location = useLocation();
+function Header({ loggedIn }) {
+    // let location = useLocation();
     const isMobile = useMediaQuery({ query: "(max-width: 1000px)" });
 
     const [isMenuPopupOpen, setIsMenuPopupOpen] = React.useState(false);
@@ -23,10 +23,10 @@ function Header(props) {
    }
 
     return (
-        <header className={`${location.pathname === '/' ? "header" : "header header_loggedin"}`}>
+        <header className={`${!loggedIn ? "header" : "header header_loggedin"}`}>
             <div className="header__info">
             <NavLink to="/" className="header__logo"><img src={logo} alt="Логотип проекта"/></NavLink>
-                {location.pathname === '/' ? 
+                {!loggedIn ? 
                     <div className="header__nav">
                         <NavLink to="/signup" className="header__link header__signup">Регистрация</NavLink>
                         <NavLink to="/signin" className="header__link header__signin">Войти</NavLink>
